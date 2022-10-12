@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_size_component_sizes",
+  "info": {
+    "displayName": "size"
+  },
+  "options": {},
+  "attributes": {
+    "sizeShirt": {
+      "type": "string",
+      "required": true,
+      "default": "S"
+    },
+    "sizeLong": {
+      "type": "string",
+      "default": "WIDTH AND HEIGHT:12X12,5 INCH",
+      "required": true
+    }
+  }
+}

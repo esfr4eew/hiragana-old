@@ -1,0 +1,29 @@
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Banner from "../components/moneyback/Banner"
+import Thanks from "../components/moneyback/Thanks"
+import axios from "axios";
+
+
+function Moneyback({ data }) {
+    const banner = { title: data.attributes.shippingTitle, description: data.attributes.description, src: data.attributes.imageRight.data.attributes.url }
+    const thanks = { href: data.attributes.contactLink, src: data.attributes.imageDown.data.attributes.url }
+    return (
+        <>
+            <Header />
+            <main>
+                <Banner banner={banner} />
+                <Thanks thanks={thanks} />
+            </main>
+            <Footer />
+        </>
+    );
+}
+
+export async function getServerSideProps() {
+    const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/moneyback?populate=*')
+
+    return { props: { data: data.data } }
+}
+
+export default Moneyback;
