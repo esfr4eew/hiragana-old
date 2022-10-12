@@ -90,10 +90,6 @@
       "repeatable": true,
       "component": "size-component.size",
       "required": true
-    },
-    "quantity": {
-      "type": "integer",
-      "default": 1
     }
   }
 }
