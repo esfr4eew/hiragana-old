@@ -59,7 +59,6 @@ function Comments({id, commentArea}) {
                     <div className="col-12 offset-0 offset-sm-1 col-sm-11">
                         <div className="replies-list">
                             {replies.filter(item => !item.attributes.comment.data).slice(0, commentsCount).map(reply => {
-                                console.log(reply);
                                 return <Comment parentId={reply.id} reply={reply} key={reply.id} commentArea={commentArea}/>
                             })}
 

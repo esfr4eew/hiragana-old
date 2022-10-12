@@ -1,15 +1,26 @@
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../context";
+import { useShopItemsContext } from "../../context/shopItemsContext";
+import { useUserContext } from "../../context/userContext";
+import { addCartItem, removeCartItem } from "../../auth/"
 
-function Item({id}) {
-    const { shopItems } = useContext(AppContext);
+function Item({ id }) {
+    const { shopItems } = useShopItemsContext();
     const [product, setProduct] = useState(null)
     const [topImageIndex, setTopImageIndex] = useState(0);
     const [quantity, setQuantity] = useState(1);
+    const [size, setSize] = useState(null);
+    const [itemInCart, setItemInCart] = useState(false);
+    // const { userData } = useUserContext()
 
     useEffect(() => {
-        shopItems && setProduct(shopItems.find(item => item.id == id));
+        if (shopItems) {
+            const current = shopItems.find(item => item.id == id)
+            setProduct(current);
+            setSize(current.attributes.sizes[0].sizeShirt)
+        }
     }, [shopItems, id])
+
 
     const incrementQuantity = () => setQuantity(++quantity);
 
@@ -17,6 +28,26 @@ function Item({id}) {
         if (quantity === 1) return;
         setQuantity(--quantity);
     }
+
+    const changeSize = (e) => {
+        setSize(e.target.value)
+    }
+    /*
+    const toggleCartItem = async () => {
+        if (!itemInCart) {
+            // добавить в корзину
+            console.log([product, userData.cartItems]);
+            const dbCartItem = { quantity, size, shop_item: product.id }
+            // const ctxCartItems = userData.cartItems.filter(cartItem => cartItem.id !== itemId)
+            // const dbCartItems = userData.cartItems.filter(cartItem => cartItem.id !== itemId).map(item => item.shop_item.data).map(data => ({ shop_item: data.id, size: 'S', quantity: 1 }))
+            // setUserData({ ...userData, cartItems: ctxCartItems })
+            // console.log(...userData.cartItems);
+            await removeCartItem(userData.cartId, { CartItem: [...userData.cartItems.map(item => item.shop_item.data).map(data => ({ shop_item: data.id, size: data.attributes.sizes[0].sizeShirt, quantity: 1 })), dbCartItem] })
+            setItemInCart(true);
+            // const res = await addCartItem(userData.userId, { size, quantity, shop_item: product.id })
+        }
+    }
+    */
 
     return (
         <>
@@ -45,7 +76,7 @@ function Item({id}) {
                                 <fieldset className="good-form__group">
                                     <label className="good-form__label">
                                         <div className="good-form__param">size</div>
-                                        <select className="good-form__select">
+                                        <select className="good-form__select" onChange={changeSize}>
                                             {product.attributes.sizes.map(size => {
                                                 return (
                                                     <option key={size.id} value={size.sizeShirt} className="good-form__option">{size.sizeShirt}</option>
@@ -63,10 +94,13 @@ function Item({id}) {
                                     </label>
                                 </fieldset>
                                 <div className="good-form__buttons">
-                                    <a href="#" className="good-form__button good-form__buy">Buy it now</a>
-                                    <a href="#" className="good-form__button good-form__add">
+                                    <Link href="#" >
+                                        <a className="good-form__button good-form__buy">Buy it now</a>
+                                    </Link>
+                                    <button className="good-form__button good-form__add" onClick={()=>{}}>
                                         <img src="/static/images/good-basket.png" alt="basket icon" />
-                                        <span>Add to cart</span></a>
+                                        <span>Add to cart</span>
+                                    </button>
                                 </div>
 
                             </form>
@@ -83,7 +117,7 @@ function Item({id}) {
                                         <div key={item.id}>
                                             {item.text && <p className="good-desc__item">{item.text}</p>}
                                             {item.coloredList && <ul className="list-desc">
-                                                {item.coloredList.split('\n').map((li,i) => {
+                                                {item.coloredList.split('\n').map((li, i) => {
                                                     return (
                                                         <li key={i} className="list-desc__item">
                                                             {li}

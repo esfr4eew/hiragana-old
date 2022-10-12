@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import { useContext, useRef, useState } from 'react';
-import { AppContext } from '../context';
+import { useShopItemsContext } from '../context/shopItemsContext';
 
 function Header() {
-    const { shopItems } = useContext(AppContext);
+    const { shopItems } = useShopItemsContext();;
     const searchRef = useRef(null);
     const [listItems, setListItems] = useState([]);
 
     const changeSearch = e => {
-        if(searchRef.current.value.length < 1) {
+        if (searchRef.current.value.length < 1) {
             setListItems([]);
             return
         }
@@ -20,7 +20,7 @@ function Header() {
         setListItems([])
         searchRef.current.value = ''
     }
-    
+
     return (
         <header className="header">
             <div className="container">
@@ -67,7 +67,7 @@ function Header() {
                         <Link href="/cart">
                             <a className="header-user__item header-basket">
                                 <img src="/static/images/basket-icon.png" className="header-user__image" alt="basket icon" />
-                                <span className="header-basket__count">3</span>
+                                <span className="header-basket__count">0</span>
                             </a>
                         </Link>
                         <div className="header-user__item header-burger">

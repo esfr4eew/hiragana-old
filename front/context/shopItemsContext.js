@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
-export const AppContext = createContext();
+export const ShopItemsContext = createContext();
 
-export function AppWrapper({ children }) {
+export function ShopItemsWrapper({ children }) {
     const [shopItems, setShopItems] = useState(null);
 
     useEffect(() => {
@@ -15,12 +15,12 @@ export function AppWrapper({ children }) {
     }, [])
     
     return (
-        <AppContext.Provider value={{shopItems}}>
+        <ShopItemsContext.Provider value={{shopItems}}>
             {children}
-        </AppContext.Provider>
+        </ShopItemsContext.Provider>
     );
 }
 
-export function useAppContext() {
-    return useContext(AppContext);
+export function useShopItemsContext() {
+    return useContext(ShopItemsContext);
 }

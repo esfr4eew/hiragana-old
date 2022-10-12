@@ -3,7 +3,6 @@ import { useReplyContext } from "../../context/replyContext";
 
 function Comment({ reply, commentArea, parentId }) {
     const {replyData, setReplyData} = useReplyContext();
-    console.log(reply);
     const nestedComments = (reply.attributes.comments?.data || []).map(comment => {
         return <Comment key={comment.id} parentId={parentId} reply={comment} commentArea={commentArea} type="child" />
     })

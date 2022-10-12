@@ -3,11 +3,12 @@ import Header from "../components/Header";
 import Sidebar from "../components/categories/Sidebar";
 import Cards from "../components/categories/Cards"
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../context";
+// import { AppContext } from "../context";
 import { useRouter } from 'next/router'
+import { useShopItemsContext } from "../context/shopItemsContext";
 
 function Categories() {
-    const { shopItems } = useContext(AppContext);
+    const { shopItems } = useShopItemsContext();
     const [items, setItems] = useState([]);
     const router = useRouter()
     const { id } = router.query

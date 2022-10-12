@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ButtonGroup from './ButtonGroup';
-import { AppContext } from "../../context";
 import Link from 'next/link';
+import { useShopItemsContext } from '../../context/shopItemsContext';
 
 function Recommend() {
-    const { shopItems } = useContext(AppContext)
+    const { shopItems } = useShopItemsContext()
     const [items, setItems] = useState([]);
 
     useEffect(() => {
