@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ButtonGroup from './ButtonGroup';
-import Link from 'next/link';
 import { useShopItemsContext } from '../../context/shopItemsContext';
+import RecommendItem from './RecommendItem';
 
 function Recommend() {
     const { shopItems } = useShopItemsContext()
@@ -12,7 +12,7 @@ function Recommend() {
     useEffect(() => {
         setItems(shopItems);
     }, [shopItems])
-    
+
     return (
         <div className="recommend">
             {items && items.length > 0 && <div className="container recommend-container">
@@ -20,53 +20,7 @@ function Recommend() {
                 <div className="recommend-items">
                     <div className="recommend-items__container">
                         <Carousel responsive={responsive} renderButtonGroupOutside={true} customButtonGroup={<ButtonGroup />} arrows={false} swipeable={true} draggable={false}>
-                            {items.map(item => {
-                                return (
-                                    <Link href={`/products/${item.id}`} key={item.id}>
-                                        <div className="custom-carousel-item">
-                                            <div className="category-item-container recommend-item-container">
-                                                <div className="category-item recommend-item">
-                                                    <div className="category-item__images">
-                                                        <img src={process.env.NEXT_PUBLIC_API_HOST + item.attributes.logo.data.attributes.url} alt="car 1"
-                                                            className="category-item__image category-item__image--active" />
-                                                    </div>
-                                                    <div className="category-item__name">{item.attributes.name}</div>
-                                                    <div className="category-item__rating">
-                                                        <div className="category-item__stars">
-                                                            <span className="category-item__star">
-                                                                <img src="/static/images/star.png" alt="" className="" />
-                                                            </span>
-                                                            <span className="category-item__star">
-                                                                <img src="/static/images/star.png" alt="" className="" />
-                                                            </span>
-                                                            <span className="category-item__star">
-                                                                <img src="/static/images/star.png" alt="" className="" />
-                                                            </span>
-                                                            <span className="category-item__star">
-                                                                <img src="/static/images/star.png" alt="" className="" />
-                                                            </span>
-                                                            <span className="category-item__star">
-                                                                <img src="/static/images/star.png" alt="" className="" />
-                                                            </span>
-                                                        </div>
-                                                        <span className="category-item__stat">({item.attributes.rating})</span>
-                                                    </div>
-                                                    <div className="category-item__offer">
-                                                        <div className="category-item__prices">
-                                                            <div className="category-item__oldprice">{item.attributes.oldprice}</div>
-                                                            <div className="category-item__price">{item.attributes.price}</div>
-                                                        </div>
-                                                        <button className="category-item__add">
-                                                            <img src="/static/images/basket-icon.png" alt="basket icon" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                )
-                            })
-                            }
+                            {items.map(item => <RecommendItem item={item} key={item.id} />)}
                         </Carousel>
                     </div>
                 </div>

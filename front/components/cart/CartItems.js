@@ -1,21 +1,44 @@
-import { useUserContext } from "../../context/userContext";
+// import { useUserContext } from "../../context/userContext";
+import { useCartContext } from "../../context/cartContext";
+import { getCartItems, editCart } from "../../auth";
 import CartItem from "./CartItem";
+import { useShopItemsContext } from "../../context/shopItemsContext";
+import { useEffect, useRef, useState } from "react";
+import { useTotalSumContext } from "../../context/totalSum";
 
 function CartItems() {
-    // const { userData, setUserData } = useUserContext();
+    const { cartData, setCartData, userId } = useCartContext();
+    const { shopItems } = useShopItemsContext();
+    const [cartItems, setCartItems] = useState(null);
+    const { total, setTotal } = useTotalSumContext();
+    const priceNodes = useRef([])
 
-    // const removeItem = async (itemId) => {
-    //     const ctxCartItems = userData.cartItems.filter(cartItem => cartItem.id !== itemId)
-    //     const dbCartItems = userData.cartItems.filter(cartItem => cartItem.id !== itemId).map(item => item.shop_item.data).map(data => ({ shop_item: data.id, size: 'S', quantity: 1 }))
-    //     setUserData({ ...userData, cartItems: ctxCartItems })
-    //     await removeCartItem(userData.cartId, { CartItem: dbCartItems })
-    // }
+    useEffect(() => {
+        if (shopItems && cartData) {
+            const items = cartData.cartItems.map(item => ({ ...item, shop_item: shopItems.find(shop_item => shop_item.id === item.shop_item) }))
+
+            setCartItems(items);
+        }
+    }, [cartData])
+
+    useEffect(() => {
+        const sum = Array.from(priceNodes.current).filter(Boolean).reduce((a, c) => a + +c.innerText.slice(1), 0)
+        const walletIcon = shopItems[0].attributes.price[0]
+        setTotal(walletIcon + sum)
+    }, [cartItems]);
+
+    const removeCartItem = async (item) => {
+        let cartItems = cartData.cartItems.filter(el => el.shop_item != item.shop_item.id);
+        console.log(cartItems);
+        setCartData({ ...cartData, cartItems })
+        await editCart(userId, cartData.cartId, cartItems)
+    }
 
     return (
         <div className="col-xl-8 col-lg-9 col-12">
-            {/* {userData && userData.cartItems.map(item => {
-                return <CartItem item={item} key={item.id} />
-            })} */}
+            {cartItems && cartItems.map((item, i) => {
+                return <CartItem item={item} key={item.shop_item.id} removeCartItem={removeCartItem} priceNodes={priceNodes} nodeIdx={i} />
+            })}
 
         </div>
     );

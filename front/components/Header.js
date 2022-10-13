@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import { useContext, useRef, useState } from 'react';
+import { useCartContext } from '../context/cartContext';
 import { useShopItemsContext } from '../context/shopItemsContext';
 
 function Header() {
+    const { cartData } = useCartContext();
     const { shopItems } = useShopItemsContext();;
     const searchRef = useRef(null);
     const [listItems, setListItems] = useState([]);
@@ -67,7 +69,7 @@ function Header() {
                         <Link href="/cart">
                             <a className="header-user__item header-basket">
                                 <img src="/static/images/basket-icon.png" className="header-user__image" alt="basket icon" />
-                                <span className="header-basket__count">0</span>
+                                <span className="header-basket__count">{cartData && cartData.cartItems.length}</span>
                             </a>
                         </Link>
                         <div className="header-user__item header-burger">

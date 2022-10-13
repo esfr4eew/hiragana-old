@@ -1,26 +1,28 @@
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { useShopItemsContext } from "../../context/shopItemsContext";
-import { useUserContext } from "../../context/userContext";
-import { addCartItem, removeCartItem } from "../../auth/"
+import { useCartContext } from "../../context/cartContext"
+import { editCart } from "../../auth";
+import { useRouter } from 'next/router';
 
 function Item({ id }) {
+    const { userId, cartData, setCartData } = useCartContext();
     const { shopItems } = useShopItemsContext();
     const [product, setProduct] = useState(null)
     const [topImageIndex, setTopImageIndex] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [size, setSize] = useState(null);
     const [itemInCart, setItemInCart] = useState(false);
-    // const { userData } = useUserContext()
+    const router = useRouter();
 
     useEffect(() => {
-        if (shopItems) {
+        if (shopItems && cartData) {
             const current = shopItems.find(item => item.id == id)
             setProduct(current);
-            setSize(current.attributes.sizes[0].sizeShirt)
+            // setSize(current.attributes.sizes[0].sizeShirt);
+            setItemInCart(cartData.cartItems.find(item => item.shop_item == current.id))
         }
-    }, [shopItems, id])
-
+    }, [shopItems, id, cartData])
 
     const incrementQuantity = () => setQuantity(++quantity);
 
@@ -30,24 +32,32 @@ function Item({ id }) {
     }
 
     const changeSize = (e) => {
+        console.log(e.target.value);
         setSize(e.target.value)
     }
-    /*
+
     const toggleCartItem = async () => {
-        if (!itemInCart) {
-            // добавить в корзину
-            console.log([product, userData.cartItems]);
-            const dbCartItem = { quantity, size, shop_item: product.id }
-            // const ctxCartItems = userData.cartItems.filter(cartItem => cartItem.id !== itemId)
-            // const dbCartItems = userData.cartItems.filter(cartItem => cartItem.id !== itemId).map(item => item.shop_item.data).map(data => ({ shop_item: data.id, size: 'S', quantity: 1 }))
-            // setUserData({ ...userData, cartItems: ctxCartItems })
-            // console.log(...userData.cartItems);
-            await removeCartItem(userData.cartId, { CartItem: [...userData.cartItems.map(item => item.shop_item.data).map(data => ({ shop_item: data.id, size: data.attributes.sizes[0].sizeShirt, quantity: 1 })), dbCartItem] })
-            setItemInCart(true);
-            // const res = await addCartItem(userData.userId, { size, quantity, shop_item: product.id })
+        let cartItems;
+        if (itemInCart) {
+            cartItems = cartData.cartItems.filter(item => item.shop_item != product.id)
+            setItemInCart(false);
+        } else {
+            const item = { size: size || product.attributes.sizes[0].sizeShirt, quantity, shop_item: product.id };
+            cartItems = cartData.cartItems.concat(item);
         }
+        setCartData({ ...cartData, cartItems })
+        await editCart(userId, cartData.cartId, cartItems)
     }
-    */
+
+    const buyItNow = async () => {
+        let cartItems
+        const item = { size: size || product.attributes.sizes[0].sizeShirt, quantity, shop_item: product.id };
+        cartItems = cartData.cartItems.filter(item => item.shop_item != product.id).concat(item);
+        setCartData({ ...cartData, cartItems })
+        await editCart(userId, cartData.cartId, cartItems)
+        router.push('/cart');
+    }
+
 
     return (
         <>
@@ -94,11 +104,9 @@ function Item({ id }) {
                                     </label>
                                 </fieldset>
                                 <div className="good-form__buttons">
-                                    <Link href="#" >
-                                        <a className="good-form__button good-form__buy">Buy it now</a>
-                                    </Link>
-                                    <button className="good-form__button good-form__add" onClick={()=>{}}>
-                                        <img src="/static/images/good-basket.png" alt="basket icon" />
+                                    <a className="good-form__button good-form__buy" onClick={async () => { await buyItNow() }}>Buy it now</a>
+                                    <button className={`good-form__button good-form__add ${itemInCart ? "good-form__add--active" : ''}`} onClick={toggleCartItem}>
+                                        <img src={`/static/images/cart${itemInCart ? "-white" : ""}.svg`} alt="basket icon" className="good-form-basket-icon" />
                                         <span>Add to cart</span>
                                     </button>
                                 </div>

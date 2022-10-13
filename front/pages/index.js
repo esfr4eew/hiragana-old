@@ -11,7 +11,6 @@ import { reducer } from "../utils/reduceData";
 
 function Index({ data }) {
   const {carouselImages, topBanner, exclusive, trending, categories, instagram, reviews} = reducer(data);
-  console.log(data);
   return (
     <>
       <Header />
