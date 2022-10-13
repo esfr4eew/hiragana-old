@@ -22,7 +22,7 @@ function CheckoutForm() {
                     <div className="checkout-form__title">country <span>*</span></div>
                     <br />
                     <select className="checkout-form__input" required>
-                        <option value="RU">Russia</option>
+                        <option value="UA">Ukraine</option>
                         <option value="USA">USA</option>
                     </select>
                 </div>

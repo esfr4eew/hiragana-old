@@ -1,9 +1,11 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import CheckoutForm from "../components/checkout/CheckoutForm";
-import Order from "../components/checkout/Order";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import CheckoutForm from "../../components/checkout/CheckoutForm";
+import Order from "../../components/checkout/Order";
+import axios from "axios";
 
-function Checkout() {
+function Checkout({ data }) {
+    console.log(data);
     return (
         <>
             <Header />
@@ -16,7 +18,7 @@ function Checkout() {
                             </div>
                         </div>
                         <CheckoutForm />
-                        <Order />
+                        {data && <Order total={data.attributes.totalPrice} products={data.attributes.Item}/>}
 
                         <div className="row">
                             <div className="col-sm-6 col-12">
@@ -41,6 +43,12 @@ function Checkout() {
             <Footer />
         </>
     );
+}
+
+export async function getServerSideProps({params}) {
+    const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/orders?filters[orderId][$eq]=${params.id}&populate[0]=coupons&populate[1]=Item&populate[2]=Item.shop_item`)
+    console.log(data.data);
+    return { props: { data: data.data[0] } }
 }
 
 export default Checkout;

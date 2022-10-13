@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useCartContext } from "../../context/cartContext";
+import axios from "axios";
 
 function CartItem({ item, removeCartItem, priceNodes, nodeIdx }) {
     const [quantity, setQuantity] = useState(1);
     const [price, setPrice] = useState(0)
-    const { cartData, setCartData, userId } = useCartContext();
-    // console.log(['cart item', item]);
-    // console.log(['priceNodes', priceNodes]);
+    const { cartData, setCartData, userId, coupon, setCoupon } = useCartContext();
+    const couponRef = useRef();
+    const [couponInner, setCouponInner] = useState(false);
+    const [invalidCoupon, setInvalidCoupon] = useState(false);
 
     useEffect(() => {
         if (item.shop_item) {
@@ -27,10 +29,21 @@ function CartItem({ item, removeCartItem, priceNodes, nodeIdx }) {
         setCartData({ ...cartData, cartItems })
     }, [quantity])
 
-
     const decreaseQuantity = () => { if (quantity > 1) setQuantity(quantity - 1) };
 
     const increaseQuantity = () => setQuantity(quantity + 1);
+
+    const checkCoupon = async (e) => {
+        e.preventDefault();
+        const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/coupons?filters[coupon][$eq]=${couponRef.current.value}`)
+        const coupon = data.data[0];
+
+        setInvalidCoupon(!coupon || !coupon?.attributes.isActive)
+        if(coupon?.attributes?.isActive) {
+            setCouponInner(coupon)
+            setCoupon(coupon)
+        }
+    }
 
     return (
         <>
@@ -63,14 +76,16 @@ function CartItem({ item, removeCartItem, priceNodes, nodeIdx }) {
                         </div>
                     </div>
                     <div className="cart-price" ref={el => priceNodes.current[nodeIdx] = el}>
-                        {item.shop_item.attributes.price[0] + (price * quantity)}
+                        {item.shop_item.attributes.price[0] + ((price * quantity) - (couponInner ? +couponInner.attributes.discountValue.slice(1) : 0))}
                     </div>
                 </div>
                 <div className="cart-item__footer">
-                    <form className="cart-coupon">
-                        <input type="text" className="cart-coupon__input" placeholder="COUPON CODE" />
+                    {!coupon && <form className="cart-coupon" onSubmit={checkCoupon}>
+                        <input type="text" className="cart-coupon__input" placeholder="COUPON CODE" ref={couponRef} />
                         <button type="submit" className="cart-coupon__submit">apply</button>
-                    </form>
+                        {invalidCoupon && <span className="coupon-error">invalid coupon</span>}
+                    </form>}
+
                     {/* <button className="cart__action cart__favorites">add in favorites</button> */}
                     <button className="cart__action  cart__remove" onClick={async () => await removeCartItem(item)}>remove</button>
                 </div>

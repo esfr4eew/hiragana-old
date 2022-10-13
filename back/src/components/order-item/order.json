@@ -10,10 +10,6 @@
       "type": "string",
       "required": true
     },
-    "quantity": {
-      "type": "string",
-      "required": true
-    },
     "price": {
       "type": "string",
       "required": true
@@ -22,6 +18,10 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::shop-item.shop-item"
+    },
+    "quantity": {
+      "type": "integer",
+      "required": true
     }
   }
 }

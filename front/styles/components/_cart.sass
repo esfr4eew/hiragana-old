@@ -86,6 +86,7 @@
         gap: 8px
         flex-basis: 68.69%
         position: relative
+        flex-wrap: wrap
         @media (max-width: 576px)
             flex-basis: 100%
             margin-bottom: 10px
@@ -96,6 +97,7 @@
             height: 36px
             border: 1px solid grey
             font-family: 'Blender Pro'
+            flex-grow: 1
             // margin-right: 8px
             @media (max-width: 768px)
                 width: 134px
@@ -205,3 +207,7 @@
 .cart-good-link
     text-decoration: none
     display: block
+
+.coupon-error
+    color: $red
+    font-size: 12px

@@ -63,9 +63,9 @@ function Header() {
                         </ul>}
                     </form>
                     <div className="col-3 col-md-2 col-lg-1 header-user">
-                        <a href="#" className="header-user__item">
+                        {/* <a href="#" className="header-user__item">
                             <img src="/static/images/user-icon.png" className="header-user__image" alt="user icon" />
-                        </a>
+                        </a> */}
                         <Link href="/cart">
                             <a className="header-user__item header-basket">
                                 <img src="/static/images/basket-icon.png" className="header-user__image" alt="basket icon" />

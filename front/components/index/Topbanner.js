@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const Carousel = require('react-responsive-carousel').Carousel;
 
 function TopBanner({ carouselImages, topBanner }) {
@@ -12,7 +14,9 @@ function TopBanner({ carouselImages, topBanner }) {
                 <div className="first-screen__body">
                     <h1 className="first-screen__title">{topBanner.title}</h1>
                     <p className="first-screen__desc">{topBanner.description}</p>
-                    <button className="first-screen__button">{topBanner.buttonText}</button>
+                    <Link href="/categories">
+                        <button className="first-screen__button">{topBanner.buttonText}</button>
+                    </Link>
                 </div>
             </div>
         </div>

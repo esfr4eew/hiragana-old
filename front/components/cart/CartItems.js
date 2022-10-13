@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTotalSumContext } from "../../context/totalSum";
 
 function CartItems() {
-    const { cartData, setCartData, userId } = useCartContext();
+    const { cartData, setCartData, userId, coupon } = useCartContext();
     const { shopItems } = useShopItemsContext();
     const [cartItems, setCartItems] = useState(null);
     const { total, setTotal } = useTotalSumContext();
@@ -25,7 +25,7 @@ function CartItems() {
         const sum = Array.from(priceNodes.current).filter(Boolean).reduce((a, c) => a + +c.innerText.slice(1), 0)
         const walletIcon = shopItems[0].attributes.price[0]
         setTotal(walletIcon + sum)
-    }, [cartItems]);
+    }, [cartItems, coupon]);
 
     const removeCartItem = async (item) => {
         let cartItems = cartData.cartItems.filter(el => el.shop_item != item.shop_item.id);

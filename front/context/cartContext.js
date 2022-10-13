@@ -6,6 +6,7 @@ const CartContext = createContext();
 export const CartContextWrapper = ({children}) => {
     const [cartData, setCartData] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [coupon, setCoupon] = useState(false)
 
     useEffect(()=>{
         async function getCartItems(){
@@ -17,7 +18,7 @@ export const CartContextWrapper = ({children}) => {
     },[])
 
     return (
-        <CartContext.Provider value={{ cartData, setCartData, userId }}>
+        <CartContext.Provider value={{ cartData, setCartData, userId, coupon, setCoupon }}>
             {children}
         </CartContext.Provider>
     )

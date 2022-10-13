@@ -29,6 +29,14 @@ export const auth = async () => {
     return { userId: newUserId, cartData };
 }
 
+export const newOrder = async (data) => {
+    const res = await axios.post(process.env.NEXT_PUBLIC_API_HOST + "/api/orders", { data })
+}
+
+export const useCoupon = async (coupon) => {
+    const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/coupons/${coupon.id}`, {data: {...coupon.attributes, isActive: false}})
+}
+
 /*
 export const getCartItems = async (id) => {
     const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/carts?filters[userId][$eq]=${id}&populate[0]=CartItem.shop_item&populate[1]=CartItem.shop_item.sizes&populate[2]=CartItem.shop_item.logo`)
