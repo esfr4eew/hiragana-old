@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import NewReply from "../../components/product/NewReply";
 import { ReplyContextWrapper } from "../../context/replyContext";
 import { useRef } from "react";
+import BackToSeries from "../../components/product/BackToSeries";
 
 function Product() {
     const router = useRouter()
@@ -19,9 +20,10 @@ function Product() {
             <main>
                 <div className="good-page">
                     <Item id={id} />
-                    <Comments id={id} commentArea={commentArea}/>
-                    <NewReply id={id} commentArea={commentArea}/>
+                    <Comments id={id} commentArea={commentArea} />
+                    <NewReply id={id} commentArea={commentArea} />
                     <Recommend />
+                    <BackToSeries id={id} />
                 </div>
             </main>
             <Footer />

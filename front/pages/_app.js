@@ -4,6 +4,7 @@ import '../styles/main.sass'
 import { ShopItemsWrapper } from '../context/shopItemsContext';
 import { CartContextWrapper } from "../context/cartContext"
 import { TotalSumWrapper } from '../context/totalSum';
+import { RatingContextWrapper } from '../context/ratingContext';
 
 function MyApp({ Component, pageProps }) {
 
@@ -11,7 +12,9 @@ function MyApp({ Component, pageProps }) {
     <CartContextWrapper>
       <ShopItemsWrapper>
         <TotalSumWrapper>
-          <Component {...pageProps} />
+          <RatingContextWrapper>
+            <Component {...pageProps} />
+          </RatingContextWrapper>
         </TotalSumWrapper>
       </ShopItemsWrapper>
     </CartContextWrapper>

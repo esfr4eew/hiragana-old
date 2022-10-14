@@ -2,11 +2,16 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import CartButton from '../CartButton';
 import { useCartContext } from "../../context/cartContext"
-import { editCart } from "../../auth";
+import { editCart, updateRating } from "../../auth";
+import { useRatingContext } from "../../context/ratingContext";
+import { useShopItemsContext } from "../../context/shopItemsContext";
 
 function RecommendItem({ item }) {
     const { userId, cartData, setCartData } = useCartContext();
     const [itemInCart, setItemInCart] = useState(false);
+    const { rating, setRating } = useRatingContext()
+    const { shopItems } = useShopItemsContext();
+    const [stars, setStars] = useState(0);
 
     useEffect(() => {
         setItemInCart(cartData?.cartItems.find(elem => elem.shop_item == item.id))
@@ -18,6 +23,22 @@ function RecommendItem({ item }) {
         setCartData({ ...cartData, cartItems })
         setItemInCart(true);
         await editCart(userId, cartData.cartId, cartItems)
+    }
+
+    useEffect(() => {
+        if (rating && rating.rating.length) {
+            const currentRating = rating.rating.find(r => r.shop_item === item.id);
+            setStars(currentRating?.ratingValue);
+        }
+    }, [rating])
+
+
+    const addRating = async (num) => {
+        setStars(num);
+        const newArray = rating.rating.find(el => el.shop_item === item.id) ? rating.rating : rating.rating.concat({shop_item: item.id, ratingValue: num})
+        const newState = { ...rating, rating: newArray.map(el => ({ ...el, ratingValue: el.shop_item === item.id ? num : el.ratingValue })) }
+        setRating(newState)
+        await updateRating(rating.id, newState.rating);
     }
 
     return (
@@ -36,21 +57,14 @@ function RecommendItem({ item }) {
                     </Link>
                     <div className="category-item__rating">
                         <div className="category-item__stars">
-                            <span className="category-item__star">
-                                <img src="/static/images/star.png" alt="" className="" />
-                            </span>
-                            <span className="category-item__star">
-                                <img src="/static/images/star.png" alt="" className="" />
-                            </span>
-                            <span className="category-item__star">
-                                <img src="/static/images/star.png" alt="" className="" />
-                            </span>
-                            <span className="category-item__star">
-                                <img src="/static/images/star.png" alt="" className="" />
-                            </span>
-                            <span className="category-item__star">
-                                <img src="/static/images/star.png" alt="" className="" />
-                            </span>
+                            {[1, 2, 3, 4, 5].map((num, i) => {
+                                return (
+                                    <span className="category-item__star" key={num} onClick={() => addRating(num)}>
+                                        <img src={`/static/images/${num <= stars ? "star-gold" : "star"}.png`} alt="" className="category-star-image" />
+                                    </span>
+                                )
+
+                            })}
                         </div>
                         <span className="category-item__stat">({item.attributes.rating})</span>
                     </div>

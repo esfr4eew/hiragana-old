@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const getCartItems = async (userId) => {
     const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/carts?filters[userId][$eq]=${userId}&populate[0]=cartItems.shop_item&populate[1]=cartItems.shop_item.sizes&populate[2]=cartItems.shop_item.logo`)
-    return { cartItems: data.data[0].attributes.cartItems.map(item => ({id: item.id, quantity: item.quantity, size: item.size, shop_item: item.shop_item.data.id})), cartId: data.data[0].id };
+    return { cartItems: data.data[0].attributes.cartItems.map(item => ({ id: item.id, quantity: item.quantity, size: item.size, shop_item: item.shop_item.data.id })), cartId: data.data[0].id };
 }
 
 const createCart = async (userId) => {
@@ -12,7 +12,7 @@ const createCart = async (userId) => {
 }
 
 export const editCart = async (userId, cartId, cartItems) => {
-    const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/carts/${cartId}`, { data: {userId, cartItems} });
+    const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/carts/${cartId}`, { data: { userId, cartItems } });
     console.log(res.data);
 }
 
@@ -34,7 +34,20 @@ export const newOrder = async (data) => {
 }
 
 export const useCoupon = async (coupon) => {
-    const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/coupons/${coupon.id}`, {data: {...coupon.attributes, isActive: false}})
+    const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/coupons/${coupon.id}`, { data: { ...coupon.attributes, isActive: false } })
+}
+
+export const getRating = async () => {
+    const userId = localStorage.getItem('hiragana');
+    if (userId) {
+        const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/ratings?filters[userId][$eq]=${userId}&populate[0]=rating&populate[1]=rating.shop_item`)
+        return data.data;
+    }
+}
+
+export const updateRating = async (id, rating) => {
+    const userId = localStorage.getItem('hiragana');
+    const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/ratings/${id}`, { data: { userId, rating } })
 }
 
 /*
