@@ -1,4 +1,4 @@
-function Banner({banner}) {
+function Banner({ banner }) {
     return (
         <div className="moneyback shipping">
             <div className="container">
@@ -14,10 +14,11 @@ function Banner({banner}) {
                             )
                         })}
                     </div>
-                    <div className="col-md-6 shipping-image-container">
-                        <img src={process.env.NEXT_PUBLIC_API_HOST + banner.src} className="shipping-image" />
-                    </div>
+                    <div style={{ paddingBottom: "50%" }} className="col-md-6 moneyback-shipping-bg"></div>
                 </div>
+            </div>
+            <div className="col-md-6 moneyback-image-container">
+                <img src={process.env.NEXT_PUBLIC_API_HOST + banner.src} className="shipping-image" />
             </div>
         </div>
     );

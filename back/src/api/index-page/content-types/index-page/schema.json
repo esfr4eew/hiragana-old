@@ -82,6 +82,13 @@
       "repeatable": false,
       "component": "index-page.reviews",
       "required": true
+    },
+    "Footer": {
+      "displayName": "Footer",
+      "type": "component",
+      "repeatable": false,
+      "component": "footer.footer",
+      "required": true
     }
   }
 }

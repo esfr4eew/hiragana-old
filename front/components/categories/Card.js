@@ -27,7 +27,6 @@ function Card({ item }) {
     useEffect(() => {
         if (rating && rating.rating.length) {
             const currentRating = rating.rating.find(r => r.shop_item === item.id);
-            console.log(rating);
             setStars(currentRating?.ratingValue);
         }
     }, [rating])
@@ -59,7 +58,7 @@ function Card({ item }) {
     }
 
     return (
-        <div className="col-12 col-md-6 col-lg-4" key={item.id}>
+        <div className="col-11 col-md-6 col-lg-4" key={item.id}>
             <div className="category-item">
                 <div className="category-item-container">
                     <Link href={`/products/${item.id}`}>

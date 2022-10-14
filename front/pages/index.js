@@ -10,7 +10,8 @@ import axios from 'axios';
 import { reducer } from "../utils/reduceData";
 
 function Index({ data }) {
-  const {carouselImages, topBanner, exclusive, trending, categories, instagram, reviews} = reducer(data);
+  const {carouselImages, topBanner, exclusive, trending, categories, instagram} = reducer(data);
+  // const {carouselImages, topBanner, exclusive, trending, categories, instagram, reviews} = reducer(data);
   return (
     <>
       <Header />
@@ -20,7 +21,8 @@ function Index({ data }) {
         <Trending trending={trending} />
         <Categories categories={categories} />
         <Instagram instagram={instagram} />
-        <Reviews reviews={reviews} />
+        <Reviews />
+        {/* <Reviews reviews={reviews} /> */}
       </main>
       <Footer />
     </>

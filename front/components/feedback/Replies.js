@@ -22,16 +22,12 @@ function Replies() {
         return replies.sort((a,b) => {
             return new Date(b.attributes.date) - new Date(a.attributes.date)
         })
-        // setAscendingSort(false)
-        // setReplies([...sorted])
     }
 
     const oldestSort = (replies) => {
         return replies.sort((a,b) => {
             return new Date(a.attributes.date) - new Date(b.attributes.date)
         })
-        // setAscendingSort(true);
-        // setReplies([...sorted])
     }
 
     const newestSortClick = () => {

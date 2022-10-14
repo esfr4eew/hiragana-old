@@ -2,7 +2,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-function Sidebar({ queryId, showSubcategory }) {
+function Sidebar({ queryId, showSubcategory, subcatRefs }) {
     const [categories, setCategories] = useState([]);
     useEffect(() => {
         const fetchCategories = async () => {
@@ -14,22 +14,22 @@ function Sidebar({ queryId, showSubcategory }) {
     }, [])
     return (
         <aside className="col-5 col-md-3">
-            {categories.length > 0 && categories.map(category => {
+            {categories.length > 0 && categories.map((category, i) => {
                 return (
                     <Link href={"/categories?id=" + category.id} key={category.id}>
-                    <details className="sidebar-category" open={queryId == category.id}>
-                        <summary className="sidebar-category__name">{category.attributes.name}</summary>
-                        <div className="sidebar-list">
-                            {category.attributes.subcategories.data.map(subcategory => {
-                                return (
-                                    <button className="sidebar-list__item" key={subcategory.id} onClick={() => showSubcategory(subcategory.id)}>
-                                        <span className="sidebar-list__name">{subcategory.attributes.name}</span> - <span
-                                            className="sidebar-list__amount">{subcategory.attributes.shop_items.data.length}</span>
-                                    </button>
-                                )
-                            })}
-                        </div>
-                    </details>
+                        <details className="sidebar-category" open={queryId == category.id}>
+                            <summary className="sidebar-category__name">{category.attributes.name}</summary>
+                            <div className="sidebar-list">
+                                {category.attributes.subcategories.data.map(subcategory => {
+                                    return (
+                                        <button className="sidebar-list__item" key={subcategory.id} ref={el => subcatRefs.current[i] = el} onClick={() => showSubcategory(subcategory.id, i)}>
+                                            <span className="sidebar-list__name">{subcategory.attributes.name}</span> - <span
+                                                className="sidebar-list__amount">{subcategory.attributes.shop_items.data.length}</span>
+                                        </button>
+                                    )
+                                })}
+                            </div>
+                        </details>
                     </Link>
                 )
             })}

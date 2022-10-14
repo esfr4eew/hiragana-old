@@ -2,7 +2,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/categories/Sidebar";
 import Cards from "../components/categories/Cards"
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 // import { AppContext } from "../context";
 import { useRouter } from 'next/router'
 import { useShopItemsContext } from "../context/shopItemsContext";
@@ -12,6 +12,7 @@ function Categories() {
     const [items, setItems] = useState([]);
     const router = useRouter()
     const { id } = router.query
+    const subcatRefs = useRef([])
 
     useEffect(() => {
         shopItems && popularitySort(shopItems);
@@ -26,7 +27,10 @@ function Categories() {
         setItems(selectedItems);
     }
 
-    const showSubcategory = id => {
+    const showSubcategory = (id, refId) => {
+        subcatRefs.current.forEach((el,i) => {
+            refId === i ? el.classList.add('sidebar-list__item--active') : el.classList.remove('sidebar-list__item--active')
+        })
         const selectedItems = shopItems.filter(item => item.attributes.subcategory.data.id === id)
         setItems(selectedItems);
     }
@@ -59,7 +63,7 @@ function Categories() {
             <main className="main categories-main">
                 <div className="container">
                     <div className="row">
-                        <Sidebar queryId={id} showSubcategory={showSubcategory} />
+                        <Sidebar queryId={id} subcatRefs={subcatRefs} showSubcategory={showSubcategory} />
                         <Cards items={items} sorts={{priceSortAsc, priceSortDesc, popularitySort}}/>
                     </div>
                 </div>

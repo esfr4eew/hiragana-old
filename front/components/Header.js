@@ -1,13 +1,27 @@
 import Link from 'next/link'
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useCartContext } from '../context/cartContext';
 import { useShopItemsContext } from '../context/shopItemsContext';
+import { useRouter } from 'next/router'
+import axios from 'axios';
+const paths = ['feedback', 'categories', 'shipping', 'moneyback'];
 
 function Header() {
     const { cartData } = useCartContext();
     const { shopItems } = useShopItemsContext();;
     const searchRef = useRef(null);
     const [listItems, setListItems] = useState([]);
+    const router = useRouter()
+    const [nav, setNav] = useState([])
+
+    useEffect(() => {
+        const fetchNav = async () => {
+            const {data} = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/index-page?populate[0]=HeaderLinks');
+            setNav(data.data.attributes.HeaderLinks)
+        }
+        fetchNav();
+    }, [])
+
 
     const changeSearch = e => {
         if (searchRef.current.value.length < 1) {
@@ -23,6 +37,19 @@ function Header() {
         searchRef.current.value = ''
     }
 
+    const headerMenu = useRef();
+
+    const toggleNavMenu = () => {
+        headerMenu.current.classList.toggle('header-nav--visible')
+        document.body.classList.toggle('navbar-visible')
+    }
+
+    const toRoute = (path) => {
+        document.body.classList.remove('navbar-visible');
+        headerMenu.current.classList.remove('header-nav--visible')
+        router.push(path)
+    }
+
     return (
         <header className="header">
             <div className="container">
@@ -31,8 +58,11 @@ function Header() {
                         <a href="/" className="header-logo__title">
                             <span className="header-logo__title--bold">HIRAGANA.</span>STYLE</a>
                     </div>
-                    <nav className="col-md-5 header-nav">
-                        <Link href="/feedback">
+                    <nav className="col-md-5 header-nav" ref={headerMenu}>
+                        {nav.map((el) => {
+                            return <a className="header-nav__item" onClick={() => toRoute(el.linkUrl)} key={el.id}>{el.linkName}</a>
+                        })}
+                        {/* <Link href="/feedback">
                             <a className="header-nav__item">feedback</a>
                         </Link>
                         <Link href="/categories" className="header-nav__item">
@@ -43,9 +73,9 @@ function Header() {
                         </Link>
                         <Link href="/moneyback" className="header-nav__item">
                             <a className="header-nav__item">moneyback</a>
-                        </Link>
+                        </Link> */}
                     </nav>
-                    <form className="col-4 col-sm-5 offset-sm-1 col-md-2 offset-md-0 col-lg-3 header-search">
+                    <form className="col-5 col-sm-6 offset-sm-1 col-md-3 offset-md-0 col-lg-3 header-search">
                         <label className="header-search__label">
                             <input type="search" className="header-search__input" ref={searchRef} onChange={changeSearch} />
                         </label>
@@ -62,7 +92,7 @@ function Header() {
                             }
                         </ul>}
                     </form>
-                    <div className="col-3 col-md-2 col-lg-1 header-user">
+                    <div className="col-2 col-md-1 col-lg-1 header-user">
                         {/* <a href="#" className="header-user__item">
                             <img src="/static/images/user-icon.png" className="header-user__image" alt="user icon" />
                         </a> */}
@@ -72,7 +102,7 @@ function Header() {
                                 <span className="header-basket__count">{cartData && cartData.cartItems.length}</span>
                             </a>
                         </Link>
-                        <div className="header-user__item header-burger">
+                        <div className="header-user__item header-burger" onClick={toggleNavMenu}>
                             <span className="header-burger__item"></span>
                             <span className="header-burger__item"></span>
                             <span className="header-burger__item"></span>

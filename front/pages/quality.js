@@ -5,8 +5,8 @@ import Thanks from "../components/moneyback/Thanks"
 import axios from "axios";
 
 
-function Moneyback({ data }) {
-    const banner = { title: data.attributes.moneybackTitle, description: data.attributes.description, src: data.attributes.imageRight.data.attributes.url }
+function ItemQuality({ data }) {
+    const banner = { title: data.attributes.itemqualityTitle, description: data.attributes.description, src: data.attributes.imageRight.data.attributes.url }
     const thanks = { href: data.attributes.contactLink, src: data.attributes.imageDown.data.attributes.url }
     return (
         <>
@@ -21,9 +21,9 @@ function Moneyback({ data }) {
 }
 
 export async function getServerSideProps() {
-    const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/moneyback?populate=*')
+    const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/itemquality-page?populate=*')
 
     return { props: { data: data.data } }
 }
 
-export default Moneyback;
+export default ItemQuality;

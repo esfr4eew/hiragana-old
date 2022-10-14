@@ -20,6 +20,9 @@
             text-transform: uppercase
             display: inline-block
             margin-bottom: 5px
+            font-weight: 500
+            font-family: 'Blender Pro Book'
+            color: #505050
             span
                 color: $red
         &__input
@@ -29,12 +32,15 @@
             height: 40px
             padding: 10px
             font-family: 'Blender Pro'
+            font-size: 12px
+            text-transform: uppercase
             display: block
             margin-bottom: 10px
+            color: #505050
             @media (max-width: 768px)
                 max-width: initial
             &--address
-                max-width: 277px
+                min-width: 277px
                 @media (max-width: 576px)
                     max-width: initial
             &::placeholder
@@ -66,15 +72,19 @@
             display: flex
             justify-content: space-between
             margin-bottom: 10px
+            font-family: 'Blender Pro Book'
             &--header
-                font-weight: 600
+                font-weight: 500
                 margin-bottom: 22px
+                font-family: 'Blender Pro'
             &--footer
-                font-weight: 600
+                font-weight: 500
                 margin-top: 22px
         &__field
             text-transform: uppercase
             &--price
+                font-weight: 500
+                font-family: 'Blender Pro'
                 color: $red
     &-confirm
         margin-top: 52px
@@ -89,7 +99,7 @@
             font-size: 12px
         &__desc
             font-size: 14px
-            font-weight: 600
+            font-weight: 500
             text-transform: uppercase
             margin-bottom: 60px
         &__button
@@ -98,5 +108,5 @@
             color: #fff
             text-decoration: none
             font-size: 12px
-            font-weight: bold
+            font-weight: 900
             padding: 20px 46px
