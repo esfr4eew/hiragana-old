@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import Sidebar from "../components/categories/Sidebar";
 import Cards from "../components/categories/Cards"
 import { useContext, useEffect, useRef, useState } from "react";
-// import { AppContext } from "../context";
 import { useRouter } from 'next/router'
 import { useShopItemsContext } from "../context/shopItemsContext";
 
@@ -19,16 +18,17 @@ function Categories() {
     }, [shopItems, id])
 
     useEffect(() => {
+        const showCategory = id => {
+            const selectedItems = shopItems.filter(item => item.attributes.subcategory.data.attributes.category.data.id == id)
+            setItems(selectedItems);
+        }
         id !== undefined && shopItems && showCategory(id);
-    }, [id])
+    }, [id, shopItems])
 
-    const showCategory = id => {
-        const selectedItems = shopItems.filter(item => item.attributes.subcategory.data.attributes.category.data.id == id)
-        setItems(selectedItems);
-    }
+
 
     const showSubcategory = (id, refId) => {
-        subcatRefs.current.forEach((el,i) => {
+        subcatRefs.current.forEach((el, i) => {
             refId === i ? el.classList.add('sidebar-list__item--active') : el.classList.remove('sidebar-list__item--active')
         })
         const selectedItems = shopItems.filter(item => item.attributes.subcategory.data.id === id)
@@ -41,15 +41,15 @@ function Categories() {
         });
         setItems([...sorted]);
     }
-    
+
     const priceSortDesc = (items) => {
         const sorted = items.sort((a, b) => {
             return Number(a.attributes.price.slice(1)) - Number(b.attributes.price.slice(1));
         })
         console.log('re');
         setItems([...sorted]);
-    }  
-    
+    }
+
     const priceSortAsc = (items) => {
         const sorted = items.sort((a, b) => {
             return Number(b.attributes.price.slice(1)) - Number(a.attributes.price.slice(1));
@@ -58,26 +58,20 @@ function Categories() {
     }
 
     return (
-        <>
+        <div>
             <Header />
             <main className="main categories-main">
                 <div className="container">
                     <div className="row">
                         <Sidebar queryId={id} subcatRefs={subcatRefs} showSubcategory={showSubcategory} />
-                        <Cards items={items} sorts={{priceSortAsc, priceSortDesc, popularitySort}}/>
+                        <Cards items={items} sorts={{ priceSortAsc, priceSortDesc, popularitySort }} />
                     </div>
                 </div>
             </main>
             <Footer />
-        </>
+        </div>
 
     );
 }
-
-// export async function getServerSideProps() {
-//     const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/moneyback?populate=*')
-
-//     return { props: { data: data.data } }
-// }
 
 export default Categories;

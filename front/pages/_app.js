@@ -5,8 +5,17 @@ import { ShopItemsWrapper } from '../context/shopItemsContext';
 import { CartContextWrapper } from "../context/cartContext"
 import { TotalSumWrapper } from '../context/totalSum';
 import { RatingContextWrapper } from '../context/ratingContext';
+import { useEffect } from 'react';
+import { auth } from '../auth';
 
 function MyApp({ Component, pageProps }) {
+
+  useEffect(() => {
+    async function userAuth(){
+      await auth();
+    }
+    userAuth();
+  }, [])
 
   return (
     <CartContextWrapper>

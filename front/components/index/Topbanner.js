@@ -1,3 +1,4 @@
+import Image from 'next/future/image';
 import Link from 'next/link';
 
 const Carousel = require('react-responsive-carousel').Carousel;
@@ -6,8 +7,8 @@ function TopBanner({ carouselImages, topBanner }) {
     return (
         <div className="first-screen">
             <Carousel>
-                {carouselImages && carouselImages.map(src => {
-                    return <div key={src}><img src={process.env.NEXT_PUBLIC_API_HOST + src} /></div>
+                {carouselImages && carouselImages.map(({ url, width, height }) => {
+                    return <div key={url}><Image src={process.env.NEXT_PUBLIC_API_HOST + url} alt="carousel image" width={width} height={height}></Image></div>
                 })}
             </Carousel>
             <div className="container">

@@ -1,19 +1,19 @@
-import { createContext, useContext,  useEffect,  useState } from "react";
-import { getRating } from "../auth";
+import { createContext, useContext, useEffect, useState } from "react";
+import { createRating, getRating, auth } from "../auth";
 
 const RatingContext = createContext();
 
-export const RatingContextWrapper = ({children}) => {
+export const RatingContextWrapper = ({ children }) => {
     const [rating, setRating] = useState([]);
 
-    useEffect(()=>{
-        async function fetchRating(){
+    useEffect(() => {
+        async function fetchRating() {
             const rating = await getRating();
-            const edited = {id: rating[0].id, rating: rating[0].attributes.rating.map(item => ({...item, shop_item: item.shop_item.data.id}))}
-            setRating(edited);;
+            setRating(rating);
         }
-        fetchRating();
-    },[])
+        fetchRating()
+
+    }, [])
 
     return (
         <RatingContext.Provider value={{ rating, setRating }}>

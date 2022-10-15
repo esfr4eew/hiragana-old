@@ -16,17 +16,19 @@ function Product() {
 
     return (
         <ReplyContextWrapper>
-            <Header />
-            <main>
-                <div className="good-page">
-                    <Item id={id} />
-                    <Comments id={id} commentArea={commentArea} />
-                    <NewReply id={id} commentArea={commentArea} />
-                    <Recommend />
-                    <BackToSeries id={id} />
-                </div>
-            </main>
-            <Footer />
+            <>
+                <Header />
+                <main>
+                    <div className="good-page">
+                        <Item id={id} />
+                        <Comments id={id} commentArea={commentArea} />
+                        <NewReply id={id} commentArea={commentArea} />
+                        <Recommend />
+                        <BackToSeries id={id} />
+                    </div>
+                </main>
+                <Footer />
+            </>
         </ReplyContextWrapper>
     );
 }

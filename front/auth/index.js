@@ -1,9 +1,11 @@
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 
-export const getCartItems = async (userId) => {
+export const getCartItems = async () => {
+    const userId = localStorage.getItem('hiragana');
     const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/carts?filters[userId][$eq]=${userId}&populate[0]=cartItems.shop_item&populate[1]=cartItems.shop_item.sizes&populate[2]=cartItems.shop_item.logo`)
-    return { cartItems: data.data[0].attributes.cartItems.map(item => ({ id: item.id, quantity: item.quantity, size: item.size, shop_item: item.shop_item.data.id })), cartId: data.data[0].id };
+    if (data.data.length) return { cartItems: data.data[0].attributes.cartItems.map(item => ({ id: item.id, quantity: item.quantity, size: item.size, shop_item: item.shop_item.data.id })), cartId: data.data[0].id };
+    return { cartItems: [], cartId: null }
 }
 
 const createCart = async (userId) => {
@@ -13,36 +15,42 @@ const createCart = async (userId) => {
 
 export const editCart = async (userId, cartId, cartItems) => {
     const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/carts/${cartId}`, { data: { userId, cartItems } });
-    console.log(res.data);
+}
+
+export const initCartData = async () => {
+    const userId = localStorage.getItem('hiragana');
+    const cartData = await getCartItems(userId);
+    return { userId, cartData };
 }
 
 export const auth = async () => {
     const userId = localStorage.getItem('hiragana');
-    if (userId) {
-        const cartData = await getCartItems(userId);
-        return { userId, cartData };
-
+    console.log(['auth', userId]);
+    if (!userId) {
+        const uuid = uuidv4()
+        localStorage.setItem('hiragana', uuid);
+        const r1 = await createRating();
+        const r2 = await createCart(uuid);
+        console.log([r1, r2]);
     }
-    const uuid = uuidv4()
-    const newUserId = localStorage.setItem('hiragana', uuid);
-    const cartData = await createCart(uuid);
-    return { userId: newUserId, cartData };
+
 }
 
 export const newOrder = async (data) => {
     const res = await axios.post(process.env.NEXT_PUBLIC_API_HOST + "/api/orders", { data })
 }
 
-export const useCoupon = async (coupon) => {
+export const updateCoupon = async (coupon) => {
     const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/coupons/${coupon.id}`, { data: { ...coupon.attributes, isActive: false } })
 }
 
 export const getRating = async () => {
+    console.log('getRating');
     const userId = localStorage.getItem('hiragana');
-    if (userId) {
-        const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/ratings?filters[userId][$eq]=${userId}&populate[0]=rating&populate[1]=rating.shop_item`)
-        return data.data;
-    }
+    const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/ratings?filters[userId][$eq]=${userId}&populate[0]=rating&populate[1]=rating.shop_item`)
+    const rating = data.data;
+    if (rating.length) return { id: rating[0].id, rating: rating[0].attributes.rating.map(item => ({ ...item, shop_item: item.shop_item.data.id })) }
+    return { id: null, rating: [] }
 }
 
 export const updateRating = async (id, rating) => {
@@ -50,36 +58,8 @@ export const updateRating = async (id, rating) => {
     const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/ratings/${id}`, { data: { userId, rating } })
 }
 
-/*
-export const getCartItems = async (id) => {
-    const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/carts?filters[userId][$eq]=${id}&populate[0]=CartItem.shop_item&populate[1]=CartItem.shop_item.sizes&populate[2]=CartItem.shop_item.logo`)
-    return { userId: data.data[0].attributes.userId, cartItems: data.data[0].attributes.CartItem || [], cartId: data.data[0].id };
-}
-
-const register = async () => {
-    const userId = uuidv4();
-    localStorage.setItem('hiragana', userId)
-    const { data } = await axios.post(process.env.NEXT_PUBLIC_API_HOST + "/api/carts?populate=*", {
-        data: {
-            userId
-        }
-    })
-    return { userId: data.data.attributes.userId, cartItems: data.data.attributes.CartItem, cartId: data.data.id }
-}
-export const auth = async () => {
+export const createRating = async () => {
     const userId = localStorage.getItem('hiragana');
-    return userId ? await getCartItems(userId) : await register();
+    const { data } = await axios.post(process.env.NEXT_PUBLIC_API_HOST + `/api/ratings/`, { data: { userId } })
+    return data.data.id;
 }
-
-export const removeCartItem = async (id, data) => {
-    const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/carts/${id}`, { data });
-    console.log(res.data);
-    // const res = await axios.post(process.env.NEXT_PUBLIC_API_HOST + `/api/carts`, { data: {userId:"1", CartItem: [{size:'S', shop_item: 1}]} });
-}
-
-export const addCartItem = async (userId, cartItem) => {
-    // const res = await axios.post(process.env.NEXT_PUBLIC_API_HOST + `/api/carts`, { data: { userId, CartItem: [cartItem] } });
-    const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/carts/${id}`, { data });
-    console.log(res.data);
-}
-*/

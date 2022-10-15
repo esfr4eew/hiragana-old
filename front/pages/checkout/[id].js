@@ -3,11 +3,12 @@ import Header from "../../components/Header";
 import CheckoutForm from "../../components/checkout/CheckoutForm";
 import Order from "../../components/checkout/Order";
 import axios from "axios";
+import Image from "next/image"
 
 function Checkout({ data }) {
     console.log(data);
     return (
-        <>
+        <div>
             <Header />
             <main>
                 <div className="checkout">
@@ -25,7 +26,8 @@ function Checkout({ data }) {
                                 <div className="order-confirm">
                                     <h1 className="checkout__title">PAYMENT METHOD</h1>
                                     <div className="order-confirm__header">
-                                        <img src="/static/images/paypal.png" alt="paypal logo" />
+                                        <Image src="/static/images/paypal.png" alt="paypal logo" layout='fill'></Image>
+                                        
                                         <a href="#" className="order-confirm__link">What is PayPal?</a>
                                     </div>
                                     <p className="order-confirm__desc">
@@ -41,7 +43,7 @@ function Checkout({ data }) {
                 </div>
             </main>
             <Footer />
-        </>
+        </div>
     );
 }
 

@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import Image from "next/future/image";
 
 function Footer() {
     const [footerData, setFooterData] = useState(null)
     useEffect(() => {
         const fetchFooter = async () => {
             const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + "/api/index-page?populate[0]=HeaderLinks&populate[1]=Footer&populate[2]=Footer.navigationLinks");
-            console.log(data.data.attributes.Footer);
             setFooterData(data.data.attributes.Footer);
         }
         fetchFooter();
@@ -29,10 +29,12 @@ function Footer() {
                         </form>
                         <div className="footer-social">
                             <a href={footerData.pinterestLink} className="footer-social__pinterest">
-                                <img src="/static/images/pinterest-icon.png" alt="pinterest icon" />
+                                <Image src="/static/images/pinterest-icon.png" alt="pinterest icon" width={15} height={15}></Image>
+                                
                             </a>
                             <a href={footerData.instagramLink} className="footer-social__pinterest">
-                                <img src="/static/images/instagram-icon.png" alt="instagram icon" />
+                                <Image src="/static/images/instagram-icon.png" alt="instagram icon" width={15} height={15}></Image>
+                                
                             </a>
                         </div>
                     </div>
@@ -45,20 +47,6 @@ function Footer() {
                                     </Link>)
                                 })}
                             </div>
-                            {/* <div className="footer-nav__col">
-                                <a href="#" className="footer-nav__link">PRIVACY POLICY</a>
-                                <a href="#" className="footer-nav__link">DELIVERY POLICY</a>
-                                <Link href={"/categories"}>
-                                    <a className="footer-nav__link">CATEGORIES</a>
-                                </Link>
-                            </div>
-                            <div className="footer-nav__col">
-                                <a href="#" className="footer-nav__link">SIZE GUIDE</a>
-                                <a href="#" className="footer-nav__link">ABOUTS US</a>
-                                <Link href={"/quality"}>
-                                    <a className="footer-nav__link">ITEMS QUALITY</a>
-                                </Link>
-                            </div> */}
                         </nav>
                     </div>
                     <div className="col-lg-4 offset-lg-1 col-6">
@@ -67,28 +55,11 @@ function Footer() {
                             <pre className="footer-about__desc">
                                 {footerData.aboutDescription}
                             </pre>
-                            {/* <p className="footer-about__desc">
-                                We are a creative and passionate team.
-                                <br />
-                                We strive to provide the best products and services to our clients.
-                                <br />
-                                We stand by our core values which files our company culture of working hard while enjoying
-                                what we do day in and day out:
-                                <br />
-                                - We insist on mutual respect company wide.
-                                <br />
-                                - We are honest at all times
-                                <br />
-                                - We follow the motto "surprise & delight".
-                                <br />
-                            </p> */}
                         </div>
                     </div>
                 </div>
                 <div className="footer-etc">
-                    <a href="#" className="footer-etc__paypal">
-                        <img src="/static/images/paypal-icon.png" alt="paypal" />
-                    </a>
+                    <Image src="/static/images/paypal-icon.png" className="footer-etc__paypal" alt="paypal" width={30} height={20}></Image>
                     <div className="footer-etc__rights">© {new Date().getYear() + 1900} {footerData.footerTitle}</div>
                 </div>
             </div>}

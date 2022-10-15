@@ -5,11 +5,11 @@ import { editCart, updateRating } from "../../auth";
 import CartButton from "../CartButton";
 import { useRatingContext } from "../../context/ratingContext";
 import { useShopItemsContext } from "../../context/shopItemsContext";
+import Image from "next/future/image";
 
 function Card({ item }) {
     const [activeImageIndex, setActiveImageIdnex] = useState(0);
     const [k, setK] = useState(0);
-
     const len = item.attributes.imageList.data.length;
     const [itemInCart, setItemInCart] = useState(false);
     const { shopItems } = useShopItemsContext();
@@ -22,14 +22,14 @@ function Card({ item }) {
             setItemInCart(cartData.cartItems.find(elem => elem.shop_item == item.id))
         }
 
-    }, [cartData])
+    }, [cartData, item.id])
 
     useEffect(() => {
         if (rating && rating.rating.length) {
             const currentRating = rating.rating.find(r => r.shop_item === item.id);
             setStars(currentRating?.ratingValue);
         }
-    }, [rating])
+    }, [rating, item.id])
 
     const prevImage = () => {
         setK(k - 1);
@@ -51,12 +51,11 @@ function Card({ item }) {
 
     const addRating = async (num) => {
         setStars(num);
-        const newArray = rating.rating.find(el => el.shop_item === item.id) ? rating.rating : rating.rating.concat({shop_item: item.id, ratingValue: num})
+        const newArray = rating.rating.find(el => el.shop_item === item.id) ? rating.rating : rating.rating.concat({ shop_item: item.id, ratingValue: num })
         const newState = { ...rating, rating: newArray.map(el => ({ ...el, ratingValue: el.shop_item === item.id ? num : el.ratingValue })) }
         setRating(newState)
         await updateRating(rating.id, newState.rating);
     }
-
     return (
         <div className="col-11 col-md-6 col-lg-4" key={item.id}>
             <div className="category-item">
@@ -66,7 +65,7 @@ function Card({ item }) {
                             <div className="category-item__images">
                                 {item.attributes.imageList.data.map((data, i) => {
                                     return (
-                                        <img src={process.env.NEXT_PUBLIC_API_HOST + data.attributes.url} alt="car" className={`category-item__image ${i === activeImageIndex ? "category-item__image--active" : ""}`} key={data.id} />
+                                        <Image src={process.env.NEXT_PUBLIC_API_HOST + data.attributes.url} alt="car" className={`category-item__image ${i === activeImageIndex ? "category-item__image--active" : ""}`} key={data.id} width={data.attributes.width} height={data.attributes.height}></Image>
                                     )
                                 })}
                             </div>
@@ -79,30 +78,15 @@ function Card({ item }) {
                             {[1, 2, 3, 4, 5].map((num, i) => {
                                 return (
                                     <span className="category-item__star" key={num} onClick={() => addRating(num)}>
-                                        <img src={`/static/images/${num <= stars ? "star-gold" : "star"}.png`} alt="" className="category-star-image" />
+                                        <Image src={`/static/images/${num <= stars ? "star-gold" : "star"}.png`} alt="" className="category-star-image" width={14} height={12}></Image>
+
                                     </span>
                                 )
 
                             })}
-                            {/* <span className="category-item__star">
-                                        <img src="/static/images/star.png" alt="" className="" />
-                                    </span>
-                                    <span className="category-item__star">
-                                        <img src="/static/images/star.png" alt="" className="" />
-                                    </span>
-                                    <span className="category-item__star">
-                                        <img src="/static/images/star.png" alt="" className="" />
-                                    </span>
-                                    <span className="category-item__star">
-                                        <img src="/static/images/star.png" alt="" className="" />
-                                    </span>
-                                    <span className="category-item__star">
-                                        <img src="/static/images/star.png" alt="" className="" />
-                                    </span> */}
                         </div>
                         <span className="category-item__stat">({item.attributes.rating})</span>
                     </div>
-
                     <div className="category-item__offer">
                         <div className="category-item__prices">
                             <div className="category-item__oldprice">{item.attributes.oldprice}</div>
@@ -114,10 +98,10 @@ function Card({ item }) {
 
                 <div className="category-item__controls">
                     <button className="category-item__control" onClick={prevImage}>
-                        <img src="/static/images/card-arrow-left.png" alt="prev slide arrow" />
+                        <Image src="/static/images/card-arrow-left.png" alt="prev slide arrow" width={10} height={20}></Image>
                     </button>
                     <button className="category-item__control" onClick={nextImage}>
-                        <img src="/static/images/card-arrow-right.png" alt="next slide arrow" />
+                        <Image src="/static/images/card-arrow-right.png" alt="next slide arrow" width={10} height={20}></Image>
                     </button>
                 </div>
             </div>

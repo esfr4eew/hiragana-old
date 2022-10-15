@@ -1,3 +1,5 @@
+import Image from "next/future/image";
+
 function Banner({ banner }) {
     return (
         <div className="moneyback">
@@ -18,7 +20,8 @@ function Banner({ banner }) {
                 </div>
             </div>
             <div className="col-md-6 moneyback-image-container">
-                <img src={process.env.NEXT_PUBLIC_API_HOST + banner.src} className="shipping-image" />
+                <Image src={process.env.NEXT_PUBLIC_API_HOST + banner.src} className="shipping-image" alt="banner" width={banner.width} height={banner.height}></Image>
+                
             </div>
         </div>
     );

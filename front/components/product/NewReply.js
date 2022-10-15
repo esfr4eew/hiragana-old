@@ -43,11 +43,6 @@ function NewReply({ id, commentArea }) {
                                 <input type="text" className="replynew-form__input" required ref={email} />
                                 <span className="replynew-form__title">Email <span>*</span> </span>
                             </label>
-                            {/* <label className="replynew-box">
-                                <input type="checkbox" className="replynew-box__input" />
-                                <span className="replynew-box__title">Save my name, email, and website in this browser for the next time I comment
-                                </span>
-                            </label> */}
                             <button type="submit" className="replynew-form__submit">Post comment</button>
                         </form>
                     </div>

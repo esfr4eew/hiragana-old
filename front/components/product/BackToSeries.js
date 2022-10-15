@@ -7,13 +7,9 @@ function BackToSeries({ id }) {
     const [ href, setHref ] = useState('');
 
     useEffect(() => {
-        // if(shopItems) {
-        //     const url = shopItems.find(item => item.id == id).attributes.subcategory.data.attributes.category.data.id;
-        //     setHref(url);
-        // }
         const url = shopItems && shopItems.find(item => item.id == id).attributes.subcategory.data.attributes.category.data.id;
         setHref(url);
-    }, [shopItems])
+    }, [shopItems, id])
     
     return (
         <Link href={`/categories?id=${href}`}>

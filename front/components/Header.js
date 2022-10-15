@@ -4,7 +4,7 @@ import { useCartContext } from '../context/cartContext';
 import { useShopItemsContext } from '../context/shopItemsContext';
 import { useRouter } from 'next/router'
 import axios from 'axios';
-const paths = ['feedback', 'categories', 'shipping', 'moneyback'];
+import Image from 'next/future/image';
 
 function Header() {
     const { cartData } = useCartContext();
@@ -16,7 +16,7 @@ function Header() {
 
     useEffect(() => {
         const fetchNav = async () => {
-            const {data} = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/index-page?populate[0]=HeaderLinks');
+            const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/index-page?populate[0]=HeaderLinks');
             setNav(data.data.attributes.HeaderLinks)
         }
         fetchNav();
@@ -55,25 +55,13 @@ function Header() {
             <div className="container">
                 <div className="row header-row">
                     <div className="col-3 col-md-3 header-logo">
-                        <a href="/" className="header-logo__title">
-                            <span className="header-logo__title--bold">HIRAGANA.</span>STYLE</a>
+                        <Link href="/">
+                            <div className="header-logo__title"><span className="header-logo__title--bold">HIRAGANA.</span>STYLE</div></Link>
                     </div>
                     <nav className="col-md-5 header-nav" ref={headerMenu}>
                         {nav.map((el) => {
                             return <a className="header-nav__item" onClick={() => toRoute(el.linkUrl)} key={el.id}>{el.linkName}</a>
                         })}
-                        {/* <Link href="/feedback">
-                            <a className="header-nav__item">feedback</a>
-                        </Link>
-                        <Link href="/categories" className="header-nav__item">
-                            <a className="header-nav__item">categories</a>
-                        </Link>
-                        <Link href="/shipping" className="header-nav__item">
-                            <a className="header-nav__item">shipping</a>
-                        </Link>
-                        <Link href="/moneyback" className="header-nav__item">
-                            <a className="header-nav__item">moneyback</a>
-                        </Link> */}
                     </nav>
                     <form className="col-5 col-sm-6 offset-sm-1 col-md-3 offset-md-0 col-lg-3 header-search">
                         <label className="header-search__label">
@@ -84,7 +72,8 @@ function Header() {
                                 <li key={item.id} className="header-search-item" onClick={listItemClickHandler}>
                                     <Link href={`/products/${item.id}`}>
                                         <div>
-                                            <img className="search-item-image" src={process.env.NEXT_PUBLIC_API_HOST + item.attributes.logo.data.attributes.url} />
+                                            <Image className="search-item-image" src={process.env.NEXT_PUBLIC_API_HOST + item.attributes.logo.data.attributes.url} alt="search" width={10} height={10}></Image>
+                                            
                                             <span>{item.attributes.name}</span>
                                         </div>
                                     </Link>
@@ -93,12 +82,10 @@ function Header() {
                         </ul>}
                     </form>
                     <div className="col-2 col-md-1 col-lg-1 header-user">
-                        {/* <a href="#" className="header-user__item">
-                            <img src="/static/images/user-icon.png" className="header-user__image" alt="user icon" />
-                        </a> */}
                         <Link href="/cart">
                             <a className="header-user__item header-basket">
-                                <img src="/static/images/basket-icon.png" className="header-user__image" alt="basket icon" />
+                                <Image src="/static/images/basket-icon.png" className="header-user__image" alt="basket icon" width={17} height={17}></Image>
+                                
                                 <span className="header-basket__count">{cartData && cartData.cartItems.length}</span>
                             </a>
                         </Link>
@@ -115,10 +102,5 @@ function Header() {
         </header>
     );
 }
-
-// export async function getServerSideProps() {
-//     const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/shop-items')
-//     return { props: { data: [1,2,3] } }
-//   }
 
 export default Header;

@@ -1,3 +1,4 @@
+import Image from "next/future/image";
 import { useContext, useState } from "react";
 import { useReplyContext } from "../../context/replyContext";
 
@@ -16,7 +17,8 @@ function Comment({ reply, commentArea, parentId }) {
         <div>
             <div className="replies-item">
                 <div className="replies-img">
-                    <img src="/static/images/replies-user.jpg" alt="user photo" className="replies-img__image" />
+                    <Image src="/static/images/replies-user.jpg" alt="user photo" className="replies-img__image" width={56} height={56}></Image>
+                    
                 </div>
                 <div className="replies-user">
                     <div className="replies-user__name">{reply.attributes.user}</div>

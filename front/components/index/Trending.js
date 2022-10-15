@@ -1,3 +1,4 @@
+import Image from "next/future/image";
 import Link from "next/link";
 
 function Trending({ trending }) {
@@ -10,7 +11,8 @@ function Trending({ trending }) {
                         return (
                             <figure className="trending__item" key={item.id}>
                                 <div className="trending__image-container">
-                                    <img src={process.env.NEXT_PUBLIC_API_HOST + item.src} alt="no good racing" className="trending__image" />
+                                    <Image src={process.env.NEXT_PUBLIC_API_HOST + item.src} alt="no good racing" className="trending__image" width={item.width} height={item.height}></Image>
+                                    
                                 </div>
                                 <Link href={"/products/" + item.id}>
                                     <figcaption className="trending-caption">

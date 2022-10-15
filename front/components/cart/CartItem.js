@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useCartContext } from "../../context/cartContext";
 import axios from "axios";
+import Image from "next/future/image";
 
 function CartItem({ item, removeCartItem, priceNodes, nodeIdx }) {
     const [quantity, setQuantity] = useState(1);
@@ -17,7 +18,7 @@ function CartItem({ item, removeCartItem, priceNodes, nodeIdx }) {
             setQuantity(item.quantity);
         }
 
-    }, [item.shop_item])
+    }, [])
 
     useEffect(() => {
         const cartItems = cartData.cartItems.map(el => {
@@ -27,7 +28,7 @@ function CartItem({ item, removeCartItem, priceNodes, nodeIdx }) {
             return el;
         })
         setCartData({ ...cartData, cartItems })
-    }, [quantity])
+    }, [])
 
     const decreaseQuantity = () => { if (quantity > 1) setQuantity(quantity - 1) };
 
@@ -46,13 +47,14 @@ function CartItem({ item, removeCartItem, priceNodes, nodeIdx }) {
     }
 
     return (
-        <>
+        <div>
             {item && item.shop_item && <div className="cart-item">
                 <div className="cart-item__header">
                     <Link href={`/products/${item.shop_item.id}`}>
                         <div className="cart-good">
                             <div className="cart-good__img">
-                                <img src={process.env.NEXT_PUBLIC_API_HOST + item.shop_item.attributes.logo.data.attributes.url} alt="osaka jdm" className="cart-good__image" />
+                                <Image src={process.env.NEXT_PUBLIC_API_HOST + item.shop_item.attributes.logo.data.attributes.url} alt="osaka jdm" className="cart-good__image" width={item.shop_item.attributes.logo.data.attributes.width} height={item.shop_item.attributes.logo.data.attributes.height}></Image>
+                                
                             </div>
                             <div className="cart-good__name">
                                 <h1 className="cart-good__title">{item.shop_item.attributes.name}</h1>
@@ -86,11 +88,11 @@ function CartItem({ item, removeCartItem, priceNodes, nodeIdx }) {
                         {invalidCoupon && <span className="coupon-error">invalid coupon</span>}
                     </form>}
 
-                    {/* <button className="cart__action cart__favorites">add in favorites</button> */}
+                    
                     <button className="cart__action  cart__remove" onClick={async () => await removeCartItem(item)}>remove</button>
                 </div>
             </div>}
-        </>
+        </div>
     );
 }
 

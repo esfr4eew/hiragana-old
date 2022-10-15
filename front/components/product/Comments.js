@@ -61,7 +61,6 @@ function Comments({id, commentArea}) {
                             {replies.filter(item => !item.attributes.comment.data).slice(0, commentsCount).map(reply => {
                                 return <Comment parentId={reply.id} reply={reply} key={reply.id} commentArea={commentArea}/>
                             })}
-
                         </div>
                         {commentsCount === 2 && replies.length > commentsCount && <button className="replies__more" onClick={showAll}>Show more</button>}
                     </div>

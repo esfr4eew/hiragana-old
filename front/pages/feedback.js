@@ -8,15 +8,14 @@ import axios from 'axios';
 function Feedback({ data }) {
     const banner = { title: data.attributes.title, description: data.attributes.description, src: data.attributes.bannerBg.data.attributes.url };
     return (
-        <>
+        <div>
             <Header />
             <main>
                 <Banner banner={banner} />
                 <Replies />
-                {/* <NewReply /> */}
             </main>
             <Footer />
-        </>
+        </div>
     );
 }
 

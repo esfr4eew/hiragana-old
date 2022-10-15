@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useShopItemsContext } from "../../context/shopItemsContext";
 import { useCartContext } from "../../context/cartContext"
 import { editCart } from "../../auth";
 import { useRouter } from 'next/router';
+import Image from "next/future/image";
 
 function Item({ id }) {
     const { userId, cartData, setCartData } = useCartContext();
@@ -19,7 +19,6 @@ function Item({ id }) {
         if (shopItems && cartData) {
             const current = shopItems.find(item => item.id == id)
             setProduct(current);
-            // setSize(current.attributes.sizes[0].sizeShirt);
             setItemInCart(cartData.cartItems.find(item => item.shop_item == current.id))
         }
     }, [shopItems, id, cartData])
@@ -60,20 +59,20 @@ function Item({ id }) {
 
 
     return (
-        <>
+        <div>
             {product && <div className="good">
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-5 offset-sm-1 col-12 offset-0 good-preview">
                             <div className="good-preview-container">
-                                <img src={process.env.NEXT_PUBLIC_API_HOST + product.attributes.imageList.data[topImageIndex].attributes.url} alt="osaka jdm" className="good__image" />
+                                <Image src={process.env.NEXT_PUBLIC_API_HOST + product.attributes.imageList.data[topImageIndex].attributes.url} alt="osaka jdm" className="good__image" width={product.attributes.imageList.data[topImageIndex].attributes.width} height={product.attributes.imageList.data[topImageIndex].attributes.height}></Image>
+
                             </div>
                             <div className="thumbnails">
                                 {product.attributes.imageList.data.map((imageData, i) => {
                                     return (
                                         <button className={`thumbnails__button ${topImageIndex === i ? "thumbnails__button--active" : ""} `} key={imageData.id} onClick={() => setTopImageIndex(i)}>
-                                            <img src={process.env.NEXT_PUBLIC_API_HOST + imageData.attributes.url} alt="osaka jdm thumbnail"
-                                                className="thumbnails__image" />
+                                            <Image src={process.env.NEXT_PUBLIC_API_HOST + imageData.attributes.url} alt="osaka jdm thumbnail" className="thumbnails__image" width={50} height={50}></Image>
                                         </button>
                                     )
                                 })}
@@ -106,7 +105,8 @@ function Item({ id }) {
                                 <div className="good-form__buttons">
                                     <a className="good-form__button good-form__buy" onClick={async () => { await buyItNow() }}>Buy it now</a>
                                     <button className={`good-form__button good-form__add ${itemInCart ? "good-form__add--active" : ''}`} onClick={toggleCartItem}>
-                                        <img src={`/static/images/cart${itemInCart ? "-white" : ""}.svg`} alt="basket icon" className="good-form-basket-icon" />
+                                        <Image src={`/static/images/cart${itemInCart ? "-white" : ""}.svg`} alt="basket icon" className="good-form-basket-icon" width={18} height={18}></Image>
+
                                         <span>Add to cart</span>
                                     </button>
                                 </div>
@@ -142,7 +142,7 @@ function Item({ id }) {
                     </div>
                 </div>
             </div>}
-        </>
+        </div>
     );
 }
 

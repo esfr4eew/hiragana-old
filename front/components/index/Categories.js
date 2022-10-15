@@ -1,3 +1,4 @@
+import Image from "next/future/image";
 import Link from "next/link";
 
 function Categories({ categories }) {
@@ -12,7 +13,8 @@ function Categories({ categories }) {
                             <div className="col-6 col-sm-4 col-md-3 category-shop__item" key={item.id}>
                                 <Link href={"/categories?id=" + item.id}>
                                     <a className="category-shop__link">
-                                        <img src={process.env.NEXT_PUBLIC_API_HOST + item.src} alt="category" className="category-shop__image" />
+                                        <Image src={process.env.NEXT_PUBLIC_API_HOST + item.src} alt="category" className="category-shop__image" width={156} height={156}></Image>
+                                        
                                         <span className="category-shop__desc">${item.name}</span>
                                     </a>
                                 </Link>
@@ -23,7 +25,7 @@ function Categories({ categories }) {
                     <div className="col-6 col-sm-4 col-md-3 category-shop__item">
                         <Link href="/categories">
                             <a className="category-shop__link">
-                                <img src="static/images/category-shop-all.jpg" alt="category 1" className="category-shop__image" />
+                                <Image src="/static/images/category-shop-all.jpg" alt="category 1" className="category-shop__image"  width={156} height={156}></Image>
                                 <span className="category-shop__desc">All categories</span>
                             </a>
                         </Link>

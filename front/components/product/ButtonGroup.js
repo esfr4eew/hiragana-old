@@ -1,15 +1,17 @@
-function NextButton({onClick}) {
+import Image from "next/future/image";
+
+function NextButton({ onClick }) {
     return (
         <button className="recommend-carousel-arrow recommend-carousel-arrow--next" onClick={() => onClick()}>
-            <img src="/static/images/card-arrow-right.png" alt="next slide arrow" />
+            <Image src="/static/images/card-arrow-right.png" alt="next slide arrow" width={10} height={20}></Image>
         </button>
     );
 }
 
-function PrevButton({onClick}) {
+function PrevButton({ onClick }) {
     return (
         <button className="recommend-carousel-arrow recommend-carousel-arrow--prev" onClick={() => onClick()}>
-            <img src="/static/images/card-arrow-left.png" alt="prev slide arrow" />
+            <Image src="/static/images/card-arrow-left.png" alt="prev slide arrow" width={10} height={20}></Image>
         </button>
     );
 }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Image from "next/future/image";
 import { useEffect, useState } from "react";
 
 function Replies() {
@@ -61,7 +62,8 @@ function Replies() {
                                 return (
                                     <div className="replies-item" key={reply.id}>
                                         <div className="replies-img">
-                                            <img src="/static/images/replies-user.jpg" alt="user photo" className="replies-img__image" />
+                                            <Image src="/static/images/replies-user.jpg" alt="user photo" className="replies-img__image" width={50} height={50}></Image>
+                                            
                                         </div>
                                         <div className="replies-user">
                                             <div className="replies-user__name">{reply.attributes.user}</div>

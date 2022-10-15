@@ -11,9 +11,8 @@ import { reducer } from "../utils/reduceData";
 
 function Index({ data }) {
   const {carouselImages, topBanner, exclusive, trending, categories, instagram} = reducer(data);
-  // const {carouselImages, topBanner, exclusive, trending, categories, instagram, reviews} = reducer(data);
   return (
-    <>
+    <div>
       <Header />
       <main className="main">
         <TopBanner carouselImages={carouselImages} topBanner={topBanner} />
@@ -22,10 +21,9 @@ function Index({ data }) {
         <Categories categories={categories} />
         <Instagram instagram={instagram} />
         <Reviews />
-        {/* <Reviews reviews={reviews} /> */}
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
 

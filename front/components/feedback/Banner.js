@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function Banner({banner}) {
     return (
-        <div className="feedback-header">
+        <div className="feedback-header" style={{ background: 'no-repeat center/cover url(' + process.env.NEXT_PUBLIC_API_HOST + banner.src + ')' }}>
             <div className="container">
                 <div className="row">
                     <div className="col-sm-7 col-9">

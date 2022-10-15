@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function Instagram({ instagram }) {
     return (
         <div className="follow">
@@ -6,7 +8,7 @@ function Instagram({ instagram }) {
                 {instagram.items && instagram.items.map(item => {
                     return (
                         <a href={item.href} className="follow__link" key={item.id}>
-                            <img src={process.env.NEXT_PUBLIC_API_HOST + item.src} alt="insta image" className="follow__image" />
+                            <Image src={process.env.NEXT_PUBLIC_API_HOST + item.src} alt="insta image" className="follow__image" layout='fill'></Image>
                         </a>
                     )
                 })}

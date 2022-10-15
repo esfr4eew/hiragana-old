@@ -1,6 +1,5 @@
-// import { useUserContext } from "../../context/userContext";
 import { useCartContext } from "../../context/cartContext";
-import { getCartItems, editCart } from "../../auth";
+import { editCart } from "../../auth";
 import CartItem from "./CartItem";
 import { useShopItemsContext } from "../../context/shopItemsContext";
 import { useEffect, useRef, useState } from "react";
@@ -19,13 +18,13 @@ function CartItems() {
 
             setCartItems(items);
         }
-    }, [cartData])
+    }, [cartData, shopItems])
 
     useEffect(() => {
         const sum = Array.from(priceNodes.current).filter(Boolean).reduce((a, c) => a + +c.innerText.slice(1), 0)
         const walletIcon = shopItems[0].attributes.price[0]
         setTotal(walletIcon + sum)
-    }, [cartItems, coupon]);
+    }, [cartItems, coupon, setTotal, shopItems]);
 
     const removeCartItem = async (item) => {
         let cartItems = cartData.cartItems.filter(el => el.shop_item != item.shop_item.id);

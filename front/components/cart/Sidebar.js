@@ -1,10 +1,10 @@
-import Link from "next/link";
 import { useCartContext } from "../../context/cartContext";
 import { useTotalSumContext } from "../../context/totalSum";
 import { v4 as uuidv4 } from 'uuid';
-import { newOrder, useCoupon } from "../../auth";
+import { newOrder, updateCoupon } from "../../auth";
 import { useShopItemsContext } from "../../context/shopItemsContext";
 import { useRouter } from 'next/router';
+import Image from "next/future/image";
 
 function Sidebar() {
     const { total } = useTotalSumContext();
@@ -21,16 +21,15 @@ function Sidebar() {
         const orderId = uuidv4();
         console.log(coupon);
         console.log(...cartData.cartItems);
-        // const data = {orderId, totalPrice: total, Item: [{size: "S", price: "123", quantity: 1, shop_item: 1}]}
         const data = {
             coupons: coupon?.id, orderId, totalPrice: total, Item: [...cartData.cartItems.map(cartItem => {
                 const { id, ...item } = cartItem
-                return ({ ...item, price: getPrice(cartItem)})
+                return ({ ...item, price: getPrice(cartItem) })
             })]
         }
         await newOrder(data);
-        if(coupon) {
-            await useCoupon(coupon);
+        if (coupon) {
+            await updateCoupon(coupon);
         }
         router.push(`/checkout/${orderId}`);
     }
@@ -61,7 +60,8 @@ function Sidebar() {
                 <div className="cart-subtotal__price">{total}</div>
 
                 <a className="cart-total__submit" onClick={async () => await createOrder()}>
-                    <img src="/static/images/basket-icon.png" alt="" />
+                    <Image src="/static/images/basket-icon.png" alt="" width={20} height={20}></Image>
+                    
                     <span>proceed to checkout</span></a>
             </div>
         </div>

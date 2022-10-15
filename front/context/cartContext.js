@@ -1,21 +1,21 @@
-import { createContext, useContext,  useEffect,  useState } from "react";
-import { auth } from "../auth";
+import { createContext, useContext, useEffect, useState } from "react";
+import { auth, initCartData } from "../auth";
 
 const CartContext = createContext();
 
-export const CartContextWrapper = ({children}) => {
+export const CartContextWrapper = ({ children }) => {
     const [cartData, setCartData] = useState(null);
     const [userId, setUserId] = useState(null);
     const [coupon, setCoupon] = useState(false)
 
-    useEffect(()=>{
-        async function getCartItems(){
-            const {userId, cartData} = await auth();
+    useEffect(() => {
+        async function getCartItems() {
+            const { userId, cartData } = await initCartData();
             setUserId(userId);
             setCartData(cartData);
         }
         getCartItems();
-    },[])
+    }, [])
 
     return (
         <CartContext.Provider value={{ cartData, setCartData, userId, coupon, setCoupon }}>

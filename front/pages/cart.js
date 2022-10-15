@@ -10,7 +10,7 @@ function Cart() {
     const { cartData } = useCartContext();
 
     return (
-        <>
+        <div>
             <Header />
             <main>
                 {cartData && cartData.cartItems.length ? <div className="cart">
@@ -23,7 +23,7 @@ function Cart() {
                 </div> : <div className="container">Корзина пуста</div>}
             </main>
             <Footer />
-        </>
+        </div>
     );
 }
 

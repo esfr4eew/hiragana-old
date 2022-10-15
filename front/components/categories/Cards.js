@@ -1,3 +1,4 @@
+import Image from "next/future/image";
 import { useState } from "react";
 import Card from "./Card";
 
@@ -22,14 +23,13 @@ function Cards({ items, sorts }) {
                 <button className={`category-sort__select ${selectedSort === 0 ? "category-sort__select--active" : ""}`} onClick={popularitySort}>popularity</button>
                 <button className={`category-sort__select category-sort__price ${selectedSort === 1 ? "category-sort__select--active" : ""}`} onClick={priceSort}>
                     <span>price</span>
-                    <img src="/static/images/triangle.png" className={`category-sort__icon ${isAscendingPriceSort ? "category-sort__icon--rotate" : ""}`} />
+                    <Image src="/static/images/triangle.png" className={`category-sort__icon ${isAscendingPriceSort ? "category-sort__icon--rotate" : ""}`} alt="sort" width={5} height={5}></Image>
                 </button>
             </div>
             <div className="category-cards">
                 <div className="row">
                     {items && items.map(item => <Card item={item} key={item.id} />)}
                 </div>
-
             </div>
             <div className="cards-pagination">
                 <a href="#" className="cards-pagination__item cards-pagination__item--active">1</a>
