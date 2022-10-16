@@ -23,6 +23,14 @@ function Item({ id }) {
         }
     }, [shopItems, id, cartData])
 
+    useEffect(() => {
+        router.events.on('routeChangeStart', beforeLeavePage);
+
+        return () => {
+            router.events.off('routeChangeStart', beforeLeavePage);
+        };
+    }, [itemInCart, quantity, size]);
+
     const incrementQuantity = () => setQuantity(++quantity);
 
     const decrementQuantity = () => {
@@ -33,6 +41,15 @@ function Item({ id }) {
     const changeSize = (e) => {
         console.log(e.target.value);
         setSize(e.target.value)
+    }
+
+    const beforeLeavePage = async () => {
+        if (itemInCart) {
+            const item = { size: size || product.attributes.sizes[0].sizeShirt, quantity, shop_item: product.id };
+            let cartItems = cartData.cartItems.filter(item => item.shop_item != product.id).concat(item)
+            setCartData({ ...cartData, cartItems })
+            await editCart(userId, cartData.cartId, cartItems)
+        }
     }
 
     const toggleCartItem = async () => {
@@ -105,7 +122,7 @@ function Item({ id }) {
                                 <div className="good-form__buttons">
                                     <a className="good-form__button good-form__buy" onClick={async () => { await buyItNow() }}>Buy it now</a>
                                     <button className={`good-form__button good-form__add ${itemInCart ? "good-form__add--active" : ''}`} onClick={toggleCartItem}>
-                                        <Image src={`/static/images/cart${itemInCart ? "-white" : ""}.svg`} alt="basket icon" className="good-form-basket-icon" width={18} height={18}></Image>
+                                        <Image src={`/static/images/shopping-cart${itemInCart ? "-white" : ""}.svg`} alt="basket icon" className="good-form-basket-icon" width={18} height={18}></Image>
 
                                         <span>Add to cart</span>
                                     </button>

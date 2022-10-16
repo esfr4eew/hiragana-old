@@ -6,7 +6,7 @@ import Recommend from "../../components/product/Recommend";
 import { useRouter } from 'next/router'
 import NewReply from "../../components/product/NewReply";
 import { ReplyContextWrapper } from "../../context/replyContext";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import BackToSeries from "../../components/product/BackToSeries";
 
 function Product() {

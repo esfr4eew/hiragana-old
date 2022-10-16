@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Banner from "../components/moneyback/Banner"
-import Thanks from "../components/moneyback/Thanks"
+import Banner from "../components/Banner"
+import Thanks from "../components/Thanks"
 import axios from "axios";
 
 

@@ -28,7 +28,7 @@ function CartItem({ item, removeCartItem, priceNodes, nodeIdx }) {
             return el;
         })
         setCartData({ ...cartData, cartItems })
-    }, [])
+    }, [quantity])
 
     const decreaseQuantity = () => { if (quantity > 1) setQuantity(quantity - 1) };
 

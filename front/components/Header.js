@@ -12,12 +12,13 @@ function Header() {
     const searchRef = useRef(null);
     const [listItems, setListItems] = useState([]);
     const router = useRouter()
-    const [nav, setNav] = useState([])
+    const headerMenu = useRef();
+    const [headerData, setHeaderData] = useState(null);
 
     useEffect(() => {
         const fetchNav = async () => {
-            const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/index-page?populate[0]=HeaderLinks');
-            setNav(data.data.attributes.HeaderLinks)
+            const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + '/api/index-page?populate[0]=headerTitle&populate[1]=HeaderLinks');
+            setHeaderData(data.data.attributes)
         }
         fetchNav();
     }, [])
@@ -37,8 +38,6 @@ function Header() {
         searchRef.current.value = ''
     }
 
-    const headerMenu = useRef();
-
     const toggleNavMenu = () => {
         headerMenu.current.classList.toggle('header-nav--visible')
         document.body.classList.toggle('navbar-visible')
@@ -55,11 +54,17 @@ function Header() {
             <div className="container">
                 <div className="row header-row">
                     <div className="col-3 col-md-3 header-logo">
-                        <Link href="/">
-                            <div className="header-logo__title"><span className="header-logo__title--bold">HIRAGANA.</span>STYLE</div></Link>
+                        {headerData &&
+                            <Link href="/">
+                                <div className="header-logo__title">
+                                    <span className="header-logo__title--bold">{headerData.headerTitle.split('.')[0]}.</span>
+                                    {headerData.headerTitle.split('.')[1]}
+                                </div>
+                            </Link>
+                        }
                     </div>
                     <nav className="col-md-5 header-nav" ref={headerMenu}>
-                        {nav.map((el) => {
+                        {headerData && headerData.HeaderLinks.map((el) => {
                             return <a className="header-nav__item" onClick={() => toRoute(el.linkUrl)} key={el.id}>{el.linkName}</a>
                         })}
                     </nav>
@@ -73,7 +78,7 @@ function Header() {
                                     <Link href={`/products/${item.id}`}>
                                         <div>
                                             <Image className="search-item-image" src={process.env.NEXT_PUBLIC_API_HOST + item.attributes.logo.data.attributes.url} alt="search" width={10} height={10}></Image>
-                                            
+
                                             <span>{item.attributes.name}</span>
                                         </div>
                                     </Link>
@@ -85,7 +90,7 @@ function Header() {
                         <Link href="/cart">
                             <a className="header-user__item header-basket">
                                 <Image src="/static/images/basket-icon.png" className="header-user__image" alt="basket icon" width={17} height={17}></Image>
-                                
+
                                 <span className="header-basket__count">{cartData && cartData.cartItems.length}</span>
                             </a>
                         </Link>

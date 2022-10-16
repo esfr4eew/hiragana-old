@@ -1,7 +1,7 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import Banner from "../components/shipping/Banner";
-import Thanks from "../components/shipping/Thanks"
+import Banner from "../components/Banner";
+import Thanks from "../components/Thanks"
 import axios from "axios";
 
 function Shipping({ data }) {

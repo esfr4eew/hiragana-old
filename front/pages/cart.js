@@ -2,9 +2,8 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import CartItems from "../components/cart/CartItems"
 import Sidebar from "../components/cart/Sidebar";
-import { useEffect } from "react";
 import { useCartContext } from "../context/cartContext";
-import { TotalSumWrapper } from "../context/totalSum";
+import Error from "../components/Error";
 
 function Cart() {
     const { cartData } = useCartContext();
@@ -20,7 +19,7 @@ function Cart() {
                             <Sidebar />
                         </div>
                     </div>
-                </div> : <div className="container">Корзина пуста</div>}
+                </div> : <Error text="Cart is empty" />}
             </main>
             <Footer />
         </div>

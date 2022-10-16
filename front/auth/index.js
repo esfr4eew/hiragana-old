@@ -25,7 +25,6 @@ export const initCartData = async () => {
 
 export const auth = async () => {
     const userId = localStorage.getItem('hiragana');
-    console.log(['auth', userId]);
     if (!userId) {
         const uuid = uuidv4()
         localStorage.setItem('hiragana', uuid);
@@ -45,7 +44,6 @@ export const updateCoupon = async (coupon) => {
 }
 
 export const getRating = async () => {
-    console.log('getRating');
     const userId = localStorage.getItem('hiragana');
     const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/ratings?filters[userId][$eq]=${userId}&populate[0]=rating&populate[1]=rating.shop_item`)
     const rating = data.data;
