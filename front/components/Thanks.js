@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function Thanks({ thanks }) {
     return (
-        <div className="thanks" style={{ background: 'no-repeat center/cover url(' + process.env.NEXT_PUBLIC_API_HOST + thanks.src + ')' }}>
+        <div className="thanks" priority={2} style={{ background: 'no-repeat center/cover url(' + process.env.NEXT_PUBLIC_API_HOST + thanks.src + ')' }}>
             <h2 className="thanks__title">
                 THANK YOU FOR ALL THE TRUST AND SUPPORT.
             </h2>

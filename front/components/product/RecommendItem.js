@@ -49,8 +49,9 @@ function RecommendItem({ item }) {
                     <Link href={`/products/${item.id}`}>
                         <div className="recomment-wrapper">
                             <div className="category-item__images">
-                                <Image src={process.env.NEXT_PUBLIC_API_HOST + item.attributes.logo.data.attributes.url} alt="car 1"
-                                    className="category-item__image category-item__image--active" width={item.attributes.logo.data.attributes.width} height={item.attributes.logo.data.attributes.height}></Image>
+                                <img alt="car" src={process.env.NEXT_PUBLIC_API_HOST + item.attributes.logo.data.attributes.url} className="category-item__image category-item__image--active"></img>
+                                {/* <Image src={process.env.NEXT_PUBLIC_API_HOST + item.attributes.logo.data.attributes.url} alt="car"
+                                    className="category-item__image category-item__image--active" width={item.attributes.logo.data.attributes.width} height={item.attributes.logo.data.attributes.height}></Image> */}
                             </div>
 
                             <div className="category-item__name">{item.attributes.name}</div>
@@ -60,9 +61,10 @@ function RecommendItem({ item }) {
                         <div className="category-item__stars">
                             {[1, 2, 3, 4, 5].map((num, i) => {
                                 return (
-                                    <span className="category-item__star" key={num} onClick={() => addRating(num)}>
-                                        <Image src={`/static/images/${num <= stars ? "star-gold" : "star"}.png`} alt="" className="category-star-image"  width={14} height={12}></Image>
-                                    </span>
+                                    <div className="category-item__star" key={num} onClick={() => addRating(num)}>
+                                        <img src={`/static/images/${num <= stars ? "star-gold" : "star"}.png`} alt="" className="category-star-image"></img>
+                                        {/* <Image src={`/static/images/${num <= stars ? "star-gold" : "star"}.png`} alt="" className="category-star-image"  width={14} height={12}></Image> */}
+                                    </div>
                                 )
 
                             })}

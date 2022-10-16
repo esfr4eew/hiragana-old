@@ -31,13 +31,13 @@ function Cards({ items, sorts }) {
                     {items && items.map(item => <Card item={item} key={item.id} />)}
                 </div>
             </div>
-            <div className="cards-pagination">
+            {/* <div className="cards-pagination">
                 <a href="#" className="cards-pagination__item cards-pagination__item--active">1</a>
                 <a href="#" className="cards-pagination__item">2</a>
                 <a href="#" className="cards-pagination__item">3</a>
                 <span>...</span>
                 <a href="#" className="cards-pagination__item">21</a>
-            </div>
+            </div> */}
         </div>
     );
 }
