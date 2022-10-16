@@ -9,6 +9,7 @@ export const RatingContextWrapper = ({ children }) => {
     useEffect(() => {
         async function fetchRating() {
             const rating = await getRating();
+            console.log(rating);
             setRating(rating);
         }
         fetchRating()
