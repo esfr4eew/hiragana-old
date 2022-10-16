@@ -13,8 +13,14 @@ const createCart = async (userId) => {
     return { cartItems: [], cartId: data.data.id }
 }
 
+const getCartId = async (userId) => {
+    const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/carts?filters[userId]=${userId}`);
+    return data.data[0].id;
+}
+
 export const editCart = async (userId, cartId, cartItems) => {
-    const res = await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/carts/${cartId}`, { data: { userId, cartItems } });
+    let id = cartId || await getCartId(userId);
+    await axios.put(process.env.NEXT_PUBLIC_API_HOST + `/api/carts/${id}`, { data: { userId, cartItems } });
 }
 
 export const initCartData = async () => {
@@ -25,6 +31,7 @@ export const initCartData = async () => {
 
 export const auth = async () => {
     const userId = localStorage.getItem('hiragana');
+    console.log(`auth ${userId}`);
     if (!userId) {
         const uuid = uuidv4()
         localStorage.setItem('hiragana', uuid);
