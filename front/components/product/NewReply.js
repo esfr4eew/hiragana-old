@@ -27,12 +27,12 @@ function NewReply({ id, commentArea }) {
                             <br />
                             feel free to contribute
                         </p>
-                        {replyData ? 
+                        {replyData &&
                             <div className="replynew-replied-container">
                                 <button className="replynew-replied-user">{replyData.user}</button>
-                                <button onClick={()=>setReplyData(null)} className="replynew-replied-cancel">
+                                <button onClick={() => setReplyData(null)} className="replynew-replied-cancel">
                                 </button>
-                            </div> : ""}
+                            </div>}
                         <form className="replynew-form" onSubmit={addComment}>
                             <textarea className="replynew-form__area" ref={commentBody}></textarea>
                             <label className="replynew-form__label">

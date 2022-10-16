@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Comment from "./Comment";
 
 function Comments({id, commentArea}) {
-    const [replies, setReplies] = useState([]);
+    const [replies, setReplies] = useState(null);
     const [commentsCount, setCommentsCount] = useState(2);
     const [ascendingSort, setAscendingSort] = useState(false);
 
@@ -43,7 +43,7 @@ function Comments({id, commentArea}) {
 
     return (
         <div className="replies">
-            {replies.length > 0 && <div className="container">
+            {replies && <div className="container">
                 <div className="row">
                     <div className="col-12 offset-0 offset-sm-1 col-sm-11 ">
                         <div className="replies-count">

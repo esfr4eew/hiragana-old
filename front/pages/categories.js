@@ -5,10 +5,11 @@ import Cards from "../components/categories/Cards"
 import { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router'
 import { useShopItemsContext } from "../context/shopItemsContext";
+import Loading from "../components/Loading"
 
 function Categories() {
     const { shopItems } = useShopItemsContext();
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(null);
     const router = useRouter()
     const { id } = router.query
     const subcatRefs = useRef([])
@@ -60,14 +61,14 @@ function Categories() {
     return (
         <div>
             <Header />
-            <main className="main categories-main">
+            {items ? <main className="main categories-main">
                 <div className="container">
                     <div className="row">
                         <Sidebar queryId={id} subcatRefs={subcatRefs} showSubcategory={showSubcategory} />
                         <Cards items={items} sorts={{ priceSortAsc, priceSortDesc, popularitySort }} />
                     </div>
                 </div>
-            </main>
+            </main> : <Loading />}
             <Footer />
         </div>
 

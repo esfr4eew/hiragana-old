@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { useShopItemsContext } from "../../context/shopItemsContext";
 import { useCartContext } from "../../context/cartContext"
 import { editCart } from "../../auth";
 import { useRouter } from 'next/router';
 import Image from "next/future/image";
 
-function Item({ id }) {
+function Item({ id, product }) {
     const { userId, cartData, setCartData } = useCartContext();
-    const { shopItems } = useShopItemsContext();
-    const [product, setProduct] = useState(null)
     const [topImageIndex, setTopImageIndex] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [size, setSize] = useState(null);
@@ -16,12 +13,10 @@ function Item({ id }) {
     const router = useRouter();
 
     useEffect(() => {
-        if (shopItems && cartData) {
-            const current = shopItems.find(item => item.id == id)
-            setProduct(current);
-            setItemInCart(cartData.cartItems.find(item => item.shop_item == current.id))
+        if (cartData) {
+            setItemInCart(cartData.cartItems.find(item => item.shop_item == product.id))
         }
-    }, [shopItems, id, cartData])
+    }, [id, cartData])
 
     useEffect(() => {
         router.events.on('routeChangeStart', beforeLeavePage);

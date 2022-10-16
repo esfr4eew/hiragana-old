@@ -3,18 +3,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function Sidebar({ queryId, showSubcategory, subcatRefs }) {
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState(null);
+
     useEffect(() => {
         const fetchCategories = async () => {
             const { data } = await axios.get('http://localhost:1337/api/categories?populate[0]=subcategories&populate[1]=subcategories.shop_items')
             setCategories(data.data);
         }
-
         fetchCategories();
     }, [])
+
     return (
         <aside className="col-5 col-md-3">
-            {categories.length > 0 && categories.map((category, i) => {
+            {categories && categories.map((category, i) => {
                 return (
                     <Link href={"/categories?id=" + category.id} key={category.id}>
                         <details className="sidebar-category" open={queryId == category.id}>

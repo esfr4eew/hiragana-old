@@ -4,7 +4,7 @@ import { createRating, getRating, auth } from "../auth";
 const RatingContext = createContext();
 
 export const RatingContextWrapper = ({ children }) => {
-    const [rating, setRating] = useState([]);
+    const [rating, setRating] = useState(null);
 
     useEffect(() => {
         async function fetchRating() {

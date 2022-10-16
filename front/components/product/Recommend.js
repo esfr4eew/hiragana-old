@@ -7,20 +7,20 @@ import RecommendItem from './RecommendItem';
 
 function Recommend() {
     const { shopItems } = useShopItemsContext()
-    const [items, setItems] = useState([]);
+    // const [items, setItems] = useState(null);
 
-    useEffect(() => {
-        setItems(shopItems);
-    }, [shopItems])
+    // useEffect(() => {
+    //     setItems(shopItems);
+    // }, [shopItems])
 
     return (
         <div className="recommend">
-            {items && items.length > 0 && <div className="container recommend-container">
+            {shopItems && <div className="container recommend-container">
                 <h3 className="recommend__title">YOU MAY ALSO LIKE</h3>
                 <div className="recommend-items">
                     <div className="recommend-items__container">
                         <Carousel responsive={responsive} renderButtonGroupOutside={true} customButtonGroup={<ButtonGroup />} arrows={false} swipeable={true} draggable={false}>
-                            {items.map(item => <RecommendItem item={item} key={item.id} />)}
+                            {shopItems.map(item => <RecommendItem item={item} key={item.id} />)}
                         </Carousel>
                     </div>
                 </div>

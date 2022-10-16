@@ -4,7 +4,6 @@ import { useCartContext } from "../../context/cartContext";
 import { editCart, updateRating } from "../../auth";
 import CartButton from "../CartButton";
 import { useRatingContext } from "../../context/ratingContext";
-import { useShopItemsContext } from "../../context/shopItemsContext";
 import Image from "next/future/image";
 
 function Card({ item }) {
@@ -12,7 +11,6 @@ function Card({ item }) {
     const [k, setK] = useState(0);
     const len = item.attributes.imageList.data.length;
     const [itemInCart, setItemInCart] = useState(false);
-    const { shopItems } = useShopItemsContext();
     const { userId, cartData, setCartData } = useCartContext();
     const { rating, setRating } = useRatingContext();
     const [stars, setStars] = useState(0);
@@ -58,7 +56,7 @@ function Card({ item }) {
     }
     return (
         <div className="col-11 col-md-6 col-lg-4" key={item.id}>
-            <div className="category-item">
+            {rating && cartData && <div className="category-item">
                 <div className="category-item-container">
                     <Link href={`/products/${item.id}`}>
                         <div>
@@ -104,7 +102,7 @@ function Card({ item }) {
                         <Image src="/static/images/card-arrow-right.png" alt="next slide arrow" width={10} height={20}></Image>
                     </button>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }

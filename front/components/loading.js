@@ -1,6 +1,9 @@
 function Loading() {
     return (
-        <div>Loading...</div>
+        <div className="loading-container">
+            <div className="spinner-border" role="status">
+            </div>
+        </div>
     );
 }
 

@@ -17,14 +17,10 @@ function Checkout() {
         const getCheckout = async () => {
             const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/orders?filters[orderId][$eq]=${id}&populate[0]=coupons&populate[1]=Item&populate[2]=Item.shop_item`)
             setData(data.data[0])
-
         }
         getCheckout();
     }, [id])
 
-    // if (!data) {
-    //     return <Error text="The order not found"/>
-    // }
     return (
         <div>
             <Header />

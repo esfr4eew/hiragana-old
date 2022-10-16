@@ -112,3 +112,19 @@ label
 .error-link:hover
     color: $red
     cursor: pointer
+
+.spinner-border
+    --bs-spinner-width: 2rem
+    --bs-spinner-height: 2rem
+    --bs-spinner-vertical-align: -0.125em
+    --bs-spinner-border-width: 0.25em
+    --bs-spinner-animation-speed: 0.75s
+    --bs-spinner-animation-name: spinner-border
+    border: var(--bs-spinner-border-width) solid $red
+    border-right-color: transparent
+
+.loading-container
+    height: 70vh
+    display: flex
+    align-items: center
+    justify-content: center

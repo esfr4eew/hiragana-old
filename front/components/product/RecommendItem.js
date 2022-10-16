@@ -4,14 +4,12 @@ import CartButton from '../CartButton';
 import { useCartContext } from "../../context/cartContext"
 import { editCart, updateRating } from "../../auth";
 import { useRatingContext } from "../../context/ratingContext";
-import { useShopItemsContext } from "../../context/shopItemsContext";
 import Image from 'next/future/image';
 
 function RecommendItem({ item }) {
     const { userId, cartData, setCartData } = useCartContext();
     const [itemInCart, setItemInCart] = useState(false);
     const { rating, setRating } = useRatingContext()
-    const { shopItems } = useShopItemsContext();
     const [stars, setStars] = useState(0);
 
     useEffect(() => {
@@ -57,7 +55,7 @@ function RecommendItem({ item }) {
                             <div className="category-item__name">{item.attributes.name}</div>
                         </div>
                     </Link>
-                    <div className="category-item__rating">
+                    {rating && <div className="category-item__rating">
                         <div className="category-item__stars">
                             {[1, 2, 3, 4, 5].map((num, i) => {
                                 return (
@@ -70,7 +68,7 @@ function RecommendItem({ item }) {
                             })}
                         </div>
                         <span className="category-item__stat">({item.attributes.rating})</span>
-                    </div>
+                    </div>}
                     <div className="category-item__offer">
                         <div className="category-item__prices">
                             <div className="category-item__oldprice">{item.attributes.oldprice}</div>

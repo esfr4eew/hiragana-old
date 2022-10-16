@@ -6,27 +6,38 @@ import Recommend from "../../components/product/Recommend";
 import { useRouter } from 'next/router'
 import NewReply from "../../components/product/NewReply";
 import { ReplyContextWrapper } from "../../context/replyContext";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import BackToSeries from "../../components/product/BackToSeries";
+import Loading from "../../components/Loading"
+import { useShopItemsContext } from "../../context/shopItemsContext";
 
 function Product() {
     const router = useRouter()
     const { id } = router.query
     const commentArea = useRef(null);
+    const { shopItems } = useShopItemsContext();
+    const [product, setProduct] = useState(null)
+
+    useEffect(() => {
+        if (shopItems) {
+            const current = shopItems.find(item => item.id == id)
+            setProduct(current);
+        }
+    }, [shopItems, id])
 
     return (
         <ReplyContextWrapper>
             <>
                 <Header />
-                <main>
+                {product ? <main>
                     <div className="good-page">
-                        <Item id={id} />
+                        <Item id={id} product={product} />
                         <Comments id={id} commentArea={commentArea} />
                         <NewReply id={id} commentArea={commentArea} />
                         <Recommend />
                         <BackToSeries id={id} />
                     </div>
-                </main>
+                </main> : <Loading />}
                 <Footer />
             </>
         </ReplyContextWrapper>
