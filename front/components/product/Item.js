@@ -34,7 +34,6 @@ function Item({ id, product }) {
     }
 
     const changeSize = (e) => {
-        console.log(e.target.value);
         setSize(e.target.value)
     }
 

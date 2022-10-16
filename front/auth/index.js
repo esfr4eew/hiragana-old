@@ -28,9 +28,8 @@ export const auth = async () => {
     if (!userId) {
         const uuid = uuidv4()
         localStorage.setItem('hiragana', uuid);
-        const r1 = await createRating();
-        const r2 = await createCart(uuid);
-        console.log([r1, r2]);
+        await createRating();
+        await createCart(uuid);
     }
 
 }

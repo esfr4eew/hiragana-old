@@ -19,8 +19,6 @@ function Sidebar() {
 
     const createOrder = async () => {
         const orderId = uuidv4();
-        console.log(coupon);
-        console.log(...cartData.cartItems);
         const data = {
             coupons: coupon?.id, orderId, totalPrice: total, Item: [...cartData.cartItems.map(cartItem => {
                 const { id, ...item } = cartItem

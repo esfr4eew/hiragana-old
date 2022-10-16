@@ -28,7 +28,6 @@ function CartItems() {
 
     const removeCartItem = async (item) => {
         let cartItems = cartData.cartItems.filter(el => el.shop_item != item.shop_item.id);
-        console.log(cartItems);
         setCartData({ ...cartData, cartItems })
         await editCart(userId, cartData.cartId, cartItems)
     }

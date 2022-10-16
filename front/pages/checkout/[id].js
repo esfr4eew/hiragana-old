@@ -61,15 +61,4 @@ function Checkout() {
     );
 }
 
-// export async function getServerSideProps({ params }) {
-//     try {
-//         const { data } = await axios.get(process.env.NEXT_PUBLIC_API_HOST + `/api/orders?filters[orderId][$eq]=${params.id}&populate[0]=coupons&populate[1]=Item&populate[2]=Item.shop_item`)
-//         // console.log(data.data);
-//         return { props: { data: data.data[0] } }
-//     } catch (error) {
-//         return { props: { data: null } }
-//     }
-
-// }
-
 export default Checkout;
