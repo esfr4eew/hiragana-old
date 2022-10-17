@@ -1,10 +1,12 @@
-import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
-import { useCartContext } from "../../context/cartContext";
-import { editCart, updateRating } from "../../auth";
-import CartButton from "../CartButton";
-import { useRatingContext } from "../../context/ratingContext";
 import Image from "next/future/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+// import { editCart, updateRating } from "../../auth";
+import { editCart } from "../../http/cart";
+import { updateRating } from "../../http/rating";
+import { useCartContext } from "../../context/cartContext";
+import { useRatingContext } from "../../context/ratingContext";
+import CartButton from "../CartButton";
 
 function Card({ item }) {
     const [activeImageIndex, setActiveImageIdnex] = useState(0);

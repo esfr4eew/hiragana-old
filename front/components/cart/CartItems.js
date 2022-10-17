@@ -1,5 +1,6 @@
 import { useCartContext } from "../../context/cartContext";
-import { editCart } from "../../auth";
+// import { editCart } from "../../auth";
+import { editCart } from "../../http/cart";
 import CartItem from "./CartItem";
 import { useShopItemsContext } from "../../context/shopItemsContext";
 import { useEffect, useRef, useState } from "react";

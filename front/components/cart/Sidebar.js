@@ -1,7 +1,9 @@
 import { useCartContext } from "../../context/cartContext";
 import { useTotalSumContext } from "../../context/totalSum";
 import { v4 as uuidv4 } from 'uuid';
-import { newOrder, updateCoupon } from "../../auth";
+// import { newOrder, updateCoupon } from "../../auth";
+import { updateCoupon } from "../../http/coupon";
+import {newOrder} from "../../http/order"
 import { useShopItemsContext } from "../../context/shopItemsContext";
 import { useRouter } from 'next/router';
 import Image from "next/future/image";

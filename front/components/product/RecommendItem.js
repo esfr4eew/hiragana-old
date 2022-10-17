@@ -2,7 +2,9 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import CartButton from '../CartButton';
 import { useCartContext } from "../../context/cartContext"
-import { editCart, updateRating } from "../../auth";
+// import { editCart, updateRating } from "../../auth";
+import { editCart } from "../../http/cart";
+import { updateRating } from "../../http/rating";
 import { useRatingContext } from "../../context/ratingContext";
 import Image from 'next/future/image';
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCartContext } from "../../context/cartContext"
-import { editCart } from "../../auth";
+// import { editCart } from "../../auth";
+import { editCart } from "../../http/cart";
 import { useRouter } from 'next/router';
 import Image from "next/future/image";
 

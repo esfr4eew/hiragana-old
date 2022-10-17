@@ -47,7 +47,6 @@ function Categories() {
         const sorted = items.sort((a, b) => {
             return Number(a.attributes.price.slice(1)) - Number(b.attributes.price.slice(1));
         })
-        console.log('re');
         setItems([...sorted]);
     }
 

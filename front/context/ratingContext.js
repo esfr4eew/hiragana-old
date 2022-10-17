@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createRating, getRating, auth } from "../auth";
+// import { createRating, getRating, auth } from "../auth";
+import { getRating } from "../http/rating";
 
 const RatingContext = createContext();
 
@@ -9,7 +10,6 @@ export const RatingContextWrapper = ({ children }) => {
     useEffect(() => {
         async function fetchRating() {
             const rating = await getRating();
-            console.log(rating);
             setRating(rating);
         }
         fetchRating()

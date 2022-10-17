@@ -6,12 +6,13 @@ import { CartContextWrapper } from "../context/cartContext"
 import { TotalSumWrapper } from '../context/totalSum';
 import { RatingContextWrapper } from '../context/ratingContext';
 import { useEffect } from 'react';
-import { auth } from '../auth';
+// import { auth } from '../auth';
+import { auth } from "../http/auth"
 
 function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
-    async function userAuth(){
+    async function userAuth() {
       await auth();
     }
     userAuth();
