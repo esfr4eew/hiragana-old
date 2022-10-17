@@ -28,7 +28,7 @@ function Cards({ items, sorts }) {
             </div>
             <div className="category-cards">
                 <div className="row">
-                    {items && items.map(item => <Card item={item} key={item.id} />)}
+                    {items && items.map(item => <Card item={item} key={item.attributes.uid} />)}
                 </div>
             </div>
             {/* <div className="cards-pagination">

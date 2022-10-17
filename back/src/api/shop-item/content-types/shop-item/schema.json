@@ -90,6 +90,9 @@
       "repeatable": true,
       "component": "size-component.size",
       "required": true
+    },
+    "uid": {
+      "type": "string"
     }
   }
 }

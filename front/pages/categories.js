@@ -15,18 +15,21 @@ function Categories() {
     const subcatRefs = useRef([])
 
     useEffect(() => {
-        shopItems && popularitySort(shopItems);
+        shopItems && popularitySort(shopItems) && id !== undefined && showCategory(id)
     }, [shopItems, id])
 
-    useEffect(() => {
-        const showCategory = id => {
-            const selectedItems = shopItems.filter(item => item.attributes.subcategory.data.attributes.category.data.id == id)
-            setItems(selectedItems);
-        }
-        id !== undefined && shopItems && showCategory(id);
-    }, [id, shopItems])
+    // useEffect(() => {
+    //     const showCategory = id => {
+    //         const selectedItems = shopItems.filter(item => item.attributes.subcategory.data.attributes.category.data.id == id)
+    //         setItems(selectedItems);
+    //     }
+    //     id !== undefined && shopItems && showCategory(id);
+    // }, [id, shopItems])
 
-
+    const showCategory = id => {
+        const selectedItems = shopItems.filter(item => item.attributes.subcategory.data.attributes.category.data.id == id)
+        setItems(selectedItems);
+    }
 
     const showSubcategory = (id, refId) => {
         subcatRefs.current.forEach((el, i) => {
@@ -41,6 +44,7 @@ function Categories() {
             return a.attributes.popularity - b.attributes.popularity;
         });
         setItems([...sorted]);
+        return true;
     }
 
     const priceSortDesc = (items) => {
