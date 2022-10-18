@@ -21,9 +21,9 @@ function Sidebar({ queryId, showSubcategory, subcatRefs }) {
                         <details className="sidebar-category" open={queryId == category.id}>
                             <summary className="sidebar-category__name">{category.attributes.name}</summary>
                             <div className="sidebar-list">
-                                {category.attributes.subcategories.data.map(subcategory => {
+                                {category.attributes.subcategories.data.map((subcategory, idx) => {
                                     return (
-                                        <button className="sidebar-list__item" key={subcategory.id} ref={el => subcatRefs.current[i] = el} onClick={() => showSubcategory(subcategory.id, i)}>
+                                        <button className="sidebar-list__item" key={subcategory.id} ref={el => subcatRefs.current[subcategory.id] = el} onClick={() => showSubcategory(subcategory.id, idx)}>
                                             <span className="sidebar-list__name">{subcategory.attributes.name}</span> - <span
                                                 className="sidebar-list__amount">{subcategory.attributes.shop_items.data.length}</span>
                                         </button>

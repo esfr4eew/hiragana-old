@@ -12,7 +12,7 @@ function Categories() {
     const [items, setItems] = useState(null);
     const router = useRouter()
     const { id } = router.query
-    const subcatRefs = useRef([])
+    const subcatRefs = useRef({})
 
     useEffect(() => {
         shopItems && popularitySort(shopItems) && id !== undefined && showCategory(id)
@@ -31,9 +31,10 @@ function Categories() {
         setItems(selectedItems);
     }
 
-    const showSubcategory = (id, refId) => {
-        subcatRefs.current.forEach((el, i) => {
-            refId === i ? el.classList.add('sidebar-list__item--active') : el.classList.remove('sidebar-list__item--active')
+    const showSubcategory = (id) => {
+        const refObj = subcatRefs.current;
+        Object.keys(refObj).forEach((el) => {
+            el == id ? refObj[el].classList.add('sidebar-list__item--active') : refObj[el].classList.remove('sidebar-list__item--active')
         })
         const selectedItems = shopItems.filter(item => item.attributes.subcategory.data.id === id)
         setItems(selectedItems);
