@@ -77,7 +77,7 @@ function Header() {
                                 <li key={item.id} className="header-search-item" onClick={listItemClickHandler}>
                                     <Link href={`/products/${item.id}`}>
                                         <div>
-                                            <Image className="search-item-image" src={process.env.NEXT_PUBLIC_API_HOST + item.attributes.logo.data.attributes.url} alt="search" width={10} height={10}></Image>
+                                            <Image className="search-item-image" src={process.env.NEXT_PUBLIC_API_HOST + item.attributes.logo.data.attributes.formats.thumbnail.url} alt="search" width={90} height={90}></Image>
 
                                             <span>{item.attributes.name}</span>
                                         </div>
